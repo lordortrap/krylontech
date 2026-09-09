@@ -1,4 +1,4 @@
-# KrylonTech Portfolio
+# KrylonTech
 
 Dark luxury-tech personal portfolio built with Next.js, TypeScript and Framer Motion.
 
