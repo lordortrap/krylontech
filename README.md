@@ -21,5 +21,3 @@ Open http://localhost:3000
 
 ## Deploy
 Import the repository into Vercel and deploy with the default Next.js settings.
-# krylontech-portfolio
-# krylontech-portfolio
