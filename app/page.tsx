@@ -1,278 +1,150 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const projects = [
   {
-    n: '01',
-    title: 'E-Pharmacy',
-    type: 'Bubble / Web App',
-    year: '2026',
-    text: 'A responsive e-pharmacy experience with medicine discovery, nearby pharmacy listings and a clean conversion-focused interface.',
-    tags: ['Bubble.io', 'UX/UI', 'Responsive'],
-    image: '/projects/e-pharmacy.png',
-    url: 'https://epharmacyvpietukhov-31602.bubbleapps.io/version-test',
+    id:'01', title:'E-Pharmacy', type:'WEB APP', year:'2026', stack:['Bubble.io','API','Workflows'],
+    description:'A pharmacy web application concept focused on clear product discovery, structured data and a practical purchase flow.',
+    link:'https://epharmacyvpietukhov-31602.bubbleapps.io/version-test'
   },
   {
-    n: '02',
-    title: 'Growly',
-    type: 'Bubble / EdTech',
-    year: '2026',
-    text: 'An online learning platform concept with courses, categories, FAQ, registration flow and a friendly product experience.',
-    tags: ['Bubble.io', 'MVP', 'Product'],
-    image: '/projects/growly.png',
-    url: 'https://growly-67500.bubbleapps.io/version-test',
+    id:'02', title:'Growly', type:'EDTECH', year:'2026', stack:['Bubble.io','UI/UX','Database'],
+    description:'An education-focused product concept built around a clean user journey, structured content and interactive learning flows.',
+    link:'https://growly-67500.bubbleapps.io/version-test'
   },
 ]
 
-const services = [
-  ['01', 'Landing pages', 'High-converting landing pages with responsive layouts, motion and technical SEO.'],
-  ['02', 'MVP development', 'Fast product validation in Bubble.io with workflows, databases and integrations.'],
-  ['03', 'Web development', 'Modern digital experiences focused on performance, usability and scalable product architecture.'],
+const capabilities = [
+  ['01','Landing Pages','Conversion-focused pages with responsive UI, clear hierarchy and strong CTA flows.'],
+  ['02','MVP Development','From product idea and database structure to workflows, launch and iteration.'],
+  ['03','Web Applications','Custom Bubble platforms with authentication, roles, dashboards and business logic.'],
+  ['04','SaaS Products','Scalable product architecture, subscriptions, user flows and operational dashboards.'],
+  ['05','API & Webhooks','Connect external services and move data between systems reliably.'],
+  ['06','Automation & AI','n8n workflows and practical AI features that reduce repetitive work.'],
 ]
 
-const techStack = [
-  ['01', 'Bubble.io', 'No-code development / MVP / SaaS'],
-  ['02', 'Figma', 'UI design / prototypes / design systems'],
-  ['03', 'FigJam', 'User flows / brainstorming / product mapping'],
-  ['04', 'UXpilot', 'AI-assisted UX / wireframes / product flows'],
-  ['05', 'n8n', 'Automation / workflows / integrations'],
-  ['06', 'API', 'Third-party services / custom integrations'],
-  ['07', 'AI', 'OpenAI / AI features / intelligent workflows'],
+const stack = [
+  ['Bubble.io','No-code development / MVP / SaaS'],['Figma','UI design / prototypes'],['FigJam','Flows / product mapping'],['UXpilot','AI-assisted UX / wireframes'],['n8n','Automation / workflows'],['API','Third-party integrations'],['Webhooks','Event-driven workflows'],['AI Integrations','Practical AI features']
 ]
 
-export default function Home() {
-  const [menu, setMenu] = useState(false)
+const workflow = [
+  ['01','DISCOVER','Clarify the problem, users, scope and success criteria.'],
+  ['02','DESIGN','Map the user flow and build the interface system.'],
+  ['03','BUILD','Create database structure, workflows and responsive UI.'],
+  ['04','CONNECT','Add APIs, webhooks, automation and AI where useful.'],
+  ['05','LAUNCH','Test, optimize, deploy and prepare the handover.'],
+]
 
-  return (
-    <main>
-      <div className="noise" />
-      <div className="ambient-grid" aria-hidden="true" />
+const pricing = [
+  ['STARTER','€250+','Landing pages / small UI builds','Best for focused websites and validation.'],
+  ['MVP','€600+','MVP / web application','For a real product with database, workflows and user flows.'],
+  ['SAAS / CUSTOM','€1,200+','Complex product builds','For SaaS, custom systems and deeper integrations.'],
+  ['HOURLY','€25','Development / fixes / iterations','Flexible support when scope changes during a project.'],
+]
 
-      <header className="nav wrap">
-        <a className="logo" href="#home" onClick={() => setMenu(false)}>
-          KRYLON<span>TECH</span>
-        </a>
+function HudIcon({kind}:{kind:'about'|'projects'|'certificate'|'mail'|'bolt'|'flow'}){
+  return <span className={`hudIcon hud-${kind}`} aria-hidden="true"><span /></span>
+}
 
-        <button className="menuBtn" onClick={() => setMenu(!menu)} aria-label="Toggle menu">
-          {menu ? 'CLOSE' : 'MENU'} <i />
-        </button>
+export default function Home(){
+  const [activeStep,setActiveStep]=useState('01')
+  const [activeCapability,setActiveCapability]=useState(0)
+  const [selectedProject,setSelectedProject]=useState<typeof projects[number]|null>(null)
+  const [menu,setMenu]=useState(false)
 
-        <nav className={menu ? 'open' : ''}>
-          <a href="#about" onClick={() => setMenu(false)}>About</a>
-          <a href="#projects" onClick={() => setMenu(false)}>Project</a>
-          <a href="#tech-stack" onClick={() => setMenu(false)}>Tech Stack</a>
-          <a href="#price" onClick={() => setMenu(false)}>Price</a>
-          <a href="#contact" onClick={() => setMenu(false)}>Contact</a>
-        </nav>
+  useEffect(()=>{
+    const onKeyDown=(e:KeyboardEvent)=>{ if(e.key==='Escape') setSelectedProject(null) }
+    window.addEventListener('keydown',onKeyDown)
+    return ()=>window.removeEventListener('keydown',onKeyDown)
+  },[])
 
-        <a className="navCta" href="#contact">CONTACT <span>↗</span></a>
-      </header>
+  useEffect(()=>{
+    const els=[...document.querySelectorAll<HTMLElement>('[data-step]')]
+    const io=new IntersectionObserver(entries=>{
+      const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0]
+      if(visible) setActiveStep(visible.target.getAttribute('data-step') || '01')
+    },{threshold:[.35,.6,.85]})
+    els.forEach(e=>io.observe(e)); return ()=>io.disconnect()
+  },[])
 
-      <section id="home" className="hero wrap">
-        <div className="heroCopy">
-          <motion.div className="eyebrow" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6 }}>
-            <span /> KRYLONTECH / DIGITAL DEVELOPMENT
-          </motion.div>
+  return <main>
+    <div className="scanline" />
+    <header className="navWrap">
+      <a className="brand" href="#home"><span>KRYLON</span><b>TECH</b></a>
+      <button className="menuBtn" onClick={()=>setMenu(v=>!v)} aria-label={menu?"Close menu":"Open menu"} aria-expanded={menu}>☰</button>
+      <nav className={menu?'nav open':'nav'}>
+        {['about','capabilities','tech-stack','projects','price','contact'].map(x=><a key={x} href={'#'+x} onClick={()=>setMenu(false)}>{x.replace('-',' ')}</a>)}
+      </nav>
+      <a className="navCta" href="#contact">LET&apos;S BUILD <span>↗</span></a>
+    </header>
 
-          <motion.h1 initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8, delay: .1 }}>
-            WE ARE<br /><em>BUILDING</em><br />THE <span>FUTURE.</span>
-          </motion.h1>
+    <section id="home" className="hero sectionFrame">
+      <div className="hudCorner tl"/><div className="hudCorner tr"/><div className="hudCorner bl"/><div className="hudCorner br"/>
+      <div className="heroGrid">
+        <motion.div className="heroCopy" initial={{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:.7}}>
+          <div className="eyebrow"><i/> KRYLONTECH // DIGITAL PRODUCT SYSTEM</div>
+          <h1>Ideas into <em>real products.</em></h1>
+          <p>KRYLONTECH turns ideas into scalable digital products — from landing pages and MVPs to SaaS platforms and web apps.</p>
+          <div className="heroActions"><a className="primaryBtn" href="#projects">VIEW PROJECTS <span>↗</span></a><a className="ghostBtn" href="#contact">START A PROJECT</a></div>
+          <div className="microStats"><span><b>NO-CODE</b> DEVELOPMENT</span><span><b>AI</b> INTEGRATIONS</span><span><b>API</b> AUTOMATION</span></div>
+        </motion.div>
+        <motion.div className="systemPanel" initial={{opacity:0,scale:.96}} animate={{opacity:1,scale:1}} transition={{delay:.15,duration:.7}}>
+          <div className="panelTop"><span>SYSTEM / 01</span><span className="live"><i/> AVAILABLE FOR PROJECTS</span></div>
+          <div className="orb"><div className="orbCore"/><div className="orbRing r1"/><div className="orbRing r2"/><div className="orbRing r3"/><span className="cross c1"/><span className="cross c2"/></div>
+          <div className="panelReadout"><span>BUILD MODE</span><strong>ACTIVE</strong><span>STACK</span><strong>BUBBLE / AI / API</strong></div>
+          <div className="codeLine">KRYL-X01 // PRODUCT_READY // 2026</div>
+        </motion.div>
+      </div>
+      <div className="scrollHint">SCROLL TO EXPLORE <span>↓</span></div>
+    </section>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: .7, delay: .35 }}>
-            I build websites, MVPs and digital products where technology, design and business meet.
-          </motion.p>
+    <section className="quickNav container">
+      {[
+        ['01','about','ABOUT','Who I am, what I build and how I work.','about'],
+        ['02','projects','PROJECTS','Real-world builds and product experiments.','projects'],
+        ['03','certificates','CERTIFICATES','Verified learning and AI No-Code training.','certificate'],
+      ].map(([n,id,title,desc,kind])=><a href={'#'+id} className="quickCard" key={id}><span className="index">{n}</span><HudIcon kind={kind as any}/><h3>{title}</h3><p>{desc}</p><span className="cardArrow">OPEN ↗</span></a>)}
+    </section>
 
-          <div className="actions">
-            <a className="primary" href="#projects">EXPLORE PROJECTS <b>↗</b></a>
-            <a className="textLink" href="#about">ABOUT KRYLONTECH</a>
-          </div>
-        </div>
+    <section id="about" className="section container twoCol">
+      <div><div className="sectionTag">01 / ABOUT</div><h2>Product thinking.<br/><em>No-code execution.</em></h2><p className="lead">I build digital products with a product-first mindset: understand the problem, map the flow, design the interface, then connect the logic and integrations that make the product useful.</p><p>My focus is Bubble.io, AI-assisted UX, APIs, webhooks and automation — the practical layer between an idea and a working product.</p><a className="textLink" href="#contact">WORK WITH ME <span>→</span></a></div>
+      <div className="aboutPanel"><div className="profileOrb"><HudIcon kind="about"/></div><div className="terminal"><div><span>ROLE</span><b>AI NO-CODE DEVELOPER</b></div><div><span>CORE</span><b>BUBBLE.IO ARCHITECT</b></div><div><span>MODE</span><b>MVP → SAAS</b></div><div><span>STATUS</span><b className="green">ONLINE</b></div></div></div>
+    </section>
 
-        <div className="heroVisual" aria-hidden="true">
-          <div className="techOrb" />
-          <div className="ring r1" /><div className="ring r2" /><div className="ring r3" />
-          <div className="core"><span /><span /><span /><span /></div>
-          <div className="hud hudA">SYSTEM / 01<br /><b>ONLINE</b></div>
-          <div className="hud hudB">BUILD<br /><b>∞</b></div>
-          <div className="beam" />
-        </div>
+    <section id="capabilities" className="section container">
+      <div className="sectionHead"><div><div className="sectionTag">02 / CAPABILITIES</div><h2>What I can <em>build.</em></h2></div><p>Each capability is a building block. Combine them into a complete product workflow.</p></div>
+      <div className="capGrid"><div className="capList">{capabilities.map((c,i)=><button key={c[0]} className={i===activeCapability?'capItem active':'capItem'} onMouseEnter={()=>setActiveCapability(i)} onFocus={()=>setActiveCapability(i)}><span>{c[0]}</span><strong>{c[1]}</strong><b>↗</b></button>)}</div><div className="capDisplay"><div className="displayCode">MODULE // {capabilities[activeCapability][0]}</div><h3>{capabilities[activeCapability][1]}</h3><p>{capabilities[activeCapability][2]}</p><div className="displayLines"><i/><i/><i/><i/></div><div className="displayFooter">KRYLON-X / READY TO DEPLOY</div></div></div>
+    </section>
 
-        <div className="heroMeta"><span>SCROLL TO EXPLORE</span><span>© 2026 KRYLONTECH</span></div>
-      </section>
+    <section id="tech-stack" className="section container">
+      <div className="sectionHead"><div><div className="sectionTag">03 / TECH STACK</div><h2>The tools behind the <em>build.</em></h2></div><p>Focused on the stack I actually use for no-code product development.</p></div>
+      <div className="stackGrid">{stack.map(([name,desc],i)=><motion.div className="stackCard" key={name} whileHover={{y:-5}}><span>0{i+1}</span><div><strong>{name}</strong><p>{desc}</p></div><b>+</b></motion.div>)}</div>
+    </section>
 
-      <section id="about" className="section wrap about">
-        <div className="sectionNo">01 / ABOUT</div>
+    <section className="section workflowSection">
+      <div className="container"><div className="sectionTag">04 / WORKFLOW</div><div className="workflowLayout"><div><h2>From <em>idea</em> to launch.</h2><p className="lead">A transparent process that keeps the product, design and technical logic moving together.</p><div className="workflowRail">{workflow.map(([num,title,desc])=><div data-step={num} className={activeStep===num?'workflowStep active':'workflowStep'} key={num}><span>{num}</span><div><h3>{title}</h3><p>{desc}</p></div></div>)}</div></div><div className="workflowMonitor"><div className="monitorHeader"><span>PIPELINE</span><b>{activeStep} / 05</b></div><div className="pipeline">{workflow.map(([num,title])=><div key={num} className={activeStep===num?'pipe active':'pipe'}><span>{num}</span><i/><b>{title}</b></div>)}</div><div className="monitorFooter">STATUS: <strong>PRODUCT FLOW OPTIMIZED</strong></div></div></div></div>
+    </section>
 
-        <div className="aboutMain">
-          <h2>TURNING IDEAS<br /><span>INTO DIGITAL PRODUCTS.</span></h2>
+    <section id="projects" className="section container">
+      <div className="sectionHead"><div><div className="sectionTag">05 / PROJECTS</div><h2>Selected <em>builds.</em></h2></div><a className="textLink" href="#contact">DISCUSS A PROJECT →</a></div>
+      <div className="projectGrid">{projects.map(p=><button className="projectCard" key={p.id} onClick={()=>setSelectedProject(p)}><div className="projectVisual"><div className="projectHud"><span>{p.id}</span><span>LIVE SYSTEM</span></div><div className="projectWindow"><div className="dots">● ● ●</div><div className="chartLine"/><div className="miniBlocks"><i/><i/><i/><i/></div></div></div><div className="projectMeta"><div><span>{p.type} / {p.year}</span><h3>{p.title}</h3></div><b>↗</b></div><p>{p.description}</p><div className="tags">{p.stack.map(s=><span key={s}>{s}</span>)}</div></button>)}</div>
+    </section>
 
-          <p className="lead">
-            AI No-Code Developer &amp; Bubble.io Architect — building scalable products without writing traditional code.
-          </p>
+    <section id="certificates" className="section container certificateSection">
+      <div className="certificateCard"><div><div className="sectionTag">06 / CERTIFICATES</div><h2>Learning that <em>ships.</em></h2><p className="lead">AI No-Code training covering Bubble fundamentals, databases, APIs, security, AI integrations, deployment and n8n automation.</p><div className="certMeta"><span>GOIT</span><span>AI NO-CODE</span><span>08 / 09 / 2026</span></div><a className="primaryBtn" href="/certificates/Vitalii-Pietukhov.pdf" target="_blank">VIEW CERTIFICATE ↗</a></div><div className="certificateVisual"><HudIcon kind="certificate"/><div className="seal">AI<br/>NO-CODE</div><span className="certCode">CERT / 47952</span></div></div>
+    </section>
 
-          <p>
-            I turn complex business ideas into production-ready web platforms — from MVPs and landing pages to full-scale SaaS products — using Bubble.io, AI integrations and third-party APIs.
-          </p>
+    <section id="price" className="section container">
+      <div className="sectionHead"><div><div className="sectionTag">07 / PRICE</div><h2>Clear starting <em>points.</em></h2></div><p>Final scope and estimate are confirmed after a short discovery.</p></div>
+      <div className="priceGrid">{pricing.map((p,i)=><div className={i===1?'priceCard featured':'priceCard'} key={p[0]}>{i===1&&<span className="popular">MOST REQUESTED</span>}<span>{p[0]}</span><strong>{p[1]}</strong><h3>{p[2]}</h3><p>{p[3]}</p><a href="#contact">START →</a></div>)}</div>
+    </section>
 
-          <p>
-            I combine product thinking with technical architecture to build custom digital solutions faster and more cost-effectively than traditional development.
-          </p>
+    <section id="contact" className="section contactSection"><div className="container contactBox"><div className="contactIcon"><HudIcon kind="mail"/></div><div><div className="sectionTag">08 / CONTACT</div><h2>Let&apos;s build something <em>real.</em></h2><p>Tell me what you want to launch and I&apos;ll help turn it into a clear product plan.</p></div><div className="contactLinks"><a href="mailto:vitaliipietukhov@gmail.com">EMAIL <span>↗</span></a><a href="tel:+48666675728">PHONE <span>↗</span></a><a href="https://wa.me/48666675728" target="_blank" rel="noreferrer">WHATSAPP <span>↗</span></a><a href="https://www.linkedin.com/in/vitalii-pietukhov" target="_blank" rel="noreferrer">LINKEDIN <span>↗</span></a><a href="https://t.me/vitalii_bioome" target="_blank" rel="noreferrer">TELEGRAM <span>↗</span></a><a href="https://krylontech-portfolio.vercel.app" target="_blank" rel="noreferrer">PORTFOLIO <span>↗</span></a></div></div></section>
 
-          <a className="textLink" href="#contact">LET&apos;S CONNECT <span>→</span></a>
-        </div>
+    <footer className="footer container"><span>KRYLONTECH</span><span>IDEAS / PRODUCTS / REAL IMPACT</span><span>© 2026</span></footer>
 
-        <div className="profileCard">
-          <div className="profileFrame"><img src="/profile/vitalii.jpg" alt="KrylonTech developer" /></div>
-          <div className="profileMeta"><span>VITALII</span><span>DEVELOPER / BUILDER</span></div>
-        </div>
-      </section>
-
-      <section className="section wrap services">
-        <div className="sectionHead">
-          <div>
-            <div className="sectionNo">02 / CAPABILITIES</div>
-            <h2>WHAT I<br /><span>BUILD.</span></h2>
-          </div>
-          <span className="sideNote">IDEA / DESIGN / DEVELOPMENT / LAUNCH</span>
-        </div>
-
-        <div className="serviceGrid">
-          {services.map(([n, title, text]) => (
-            <motion.article key={n} whileHover={{ y: -6 }} className="service">
-              <span>{n}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-              <i>↗</i>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section id="tech-stack" className="section wrap techStackSection">
-        <div className="sectionHead">
-          <div>
-            <div className="sectionNo">03 / TECH STACK</div>
-            <h2>TOOLS I<br /><span>USE.</span></h2>
-          </div>
-          <span className="sideNote">NO-CODE / AI / AUTOMATION / API</span>
-        </div>
-
-        <div className="techStackGrid">
-          {techStack.map(([n, title, text]) => (
-            <motion.article
-              key={title}
-              whileHover={{ y: -5 }}
-              className="techItem"
-            >
-              <span>{n}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section id="projects" className="section wrap projects">
-        <div className="sectionHead">
-          <div>
-            <div className="sectionNo">04 / PROJECTS</div>
-            <h2>SELECTED<br /><span>WORK.</span></h2>
-          </div>
-          <span className="sideNote">REAL PROJECTS / REAL PRODUCTS</span>
-        </div>
-
-        <div className="projectList">
-          {projects.map((p) => (
-            <motion.a
-              key={p.n}
-              href={p.url}
-              target="_blank"
-              rel="noreferrer"
-              className="project"
-              whileHover={{ y: -8 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-            >
-              <div className="projectTop"><span>{p.n}</span><span>{p.type} / {p.year}</span></div>
-              <div className="projectImage">
-                <img src={p.image} alt={`${p.title} project`} />
-                <div className="projectOverlay"><span>OPEN LIVE PROJECT</span><b>↗</b></div>
-              </div>
-              <div className="projectInfo">
-                <h3>{p.title}</h3>
-                <p>{p.text}</p>
-                <div className="tags">{p.tags.map(t => <span key={t}>{t}</span>)}</div>
-              </div>
-            </motion.a>
-          ))}
-        </div>
-      </section>
-
-      <section id="price" className="section wrap pricing">
-        <div className="sectionNo">05 / PRICE</div>
-
-        <div className="priceGrid">
-          <div>
-            <h2>START SMALL.<br /><span>THINK BIG.</span></h2>
-            <p className="lead">Transparent starting prices for businesses that need a serious digital presence or a fast MVP.</p>
-            <p className="muted">Every project is scoped individually after a short conversation.</p>
-          </div>
-
-          <div className="priceCard">
-            <span>STARTING FROM</span>
-            <strong>€250+</strong>
-            <p>Landing pages, MVPs and custom digital products. Final pricing depends on scope and complexity.</p>
-            <ul>
-              <li>STARTER — €250+</li>
-              <li>MVP — €600+</li>
-              <li>SAAS / CUSTOM — €1,200+</li>
-              <li>HOURLY — €25 / hour</li>
-            </ul>
-            <a className="primary" href="#contact">CONTACT ME <b>↗</b></a>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="section wrap contact">
-        <div>
-          <div className="sectionNo">06 / CONTACT</div>
-          <h2>LET&apos;S BUILD<br /><span>SOMETHING.</span></h2>
-          <p className="lead">
-            Have an idea, MVP or existing product? Reach out through any channel that works best for you.
-          </p>
-          <div className="contactLine">AVAILABLE FOR NEW PROJECTS <span>●</span></div>
-        </div>
-
-        <div className="contactDetails">
-          <a href="https://www.linkedin.com/in/vitalii-pietukhov" target="_blank" rel="noreferrer">
-            <span>LINKEDIN</span>
-            linkedin.com/in/vitalii-pietukhov ↗
-          </a>
-          <a href="mailto:vitaliipietukhov@gmail.com">
-            <span>EMAIL</span>
-            vitaliipietukhov@gmail.com
-          </a>
-          <a href="tel:+48666675728">
-            <span>PHONE</span>
-            +48 666 675 728
-          </a>
-          <a href="https://t.me/vitalii_bioome" target="_blank" rel="noreferrer">
-            <span>TELEGRAM</span>
-            @vitalii_bioome ↗
-          </a>
-          <a href="https://wa.me/48666675728" target="_blank" rel="noreferrer">
-            <span>WHATSAPP</span>
-            +48 666 675 728 ↗
-          </a>
-        </div>
-      </section>
-
-      <footer className="footer wrap">
-        <div className="logo">KRYLON<span>TECH</span></div>
-        <div>BUILDING DIGITAL FUTURES.</div>
-        <div>© 2026</div>
-      </footer>
-    </main>
-  )
+    <AnimatePresence>{selectedProject&&<motion.div className="modalBackdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={()=>setSelectedProject(null)}><motion.div className="projectModal" initial={{y:25,scale:.98}} animate={{y:0,scale:1}} exit={{y:25,scale:.98}} onClick={e=>e.stopPropagation()}><button className="close" onClick={()=>setSelectedProject(null)}>×</button><div className="sectionTag">PROJECT / {selectedProject.id}</div><h2>{selectedProject.title}</h2><p>{selectedProject.description}</p><div className="modalTags">{selectedProject.stack.map(s=><span key={s}>{s}</span>)}</div><a className="primaryBtn" href={selectedProject.link} target="_blank" rel="noreferrer">OPEN LIVE PROJECT ↗</a></motion.div></motion.div>}</AnimatePresence>
+  </main>
 }

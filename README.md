@@ -1,23 +1,20 @@
-# KrylonTech
+# KRYLONTECH Portfolio v2
 
-Dark luxury-tech personal portfolio built with Next.js, TypeScript and Framer Motion.
+Updated single-page Next.js portfolio inspired by the interaction/storytelling pattern of modern AI portfolios while preserving the KRYLONTECH dark neon-blue HUD identity.
 
 ## Included
-- About / Project / Price / Contact sections
-- Real E-Pharmacy and Growly project screenshots + live links
-- Personal profile photo
-- Responsive design
-- Motion and neon-blue HUD/grid visuals
-- SEO metadata
-- Ready for Vercel deployment
+- Interactive hero system panel
+- About / Capabilities / Tech Stack / Workflow / Projects / Certificates / Price / Contact
+- Capability hover modules
+- Scroll-reactive workflow pipeline
+- Project detail modal with live Bubble links
+- Certificate section and PDF link
+- Responsive navigation and mobile layout
+- Framer Motion interactions
 
 ## Run
-```bash
 npm install
 npm run dev
-```
 
-Open http://localhost:3000
-
-## Deploy
-Import the repository into Vercel and deploy with the default Next.js settings.
+## Build
+npm run build
