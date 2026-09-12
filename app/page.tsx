@@ -61,7 +61,7 @@ export default function Home(){
   },[])
 
   useEffect(()=>{
-    const els=Array.from(document.querySelectorAll<HTMLElement>('[data-step]'))
+    const els=Array.from(document.querySelectorAll('[data-step]')) as HTMLElement[]
     const io=new IntersectionObserver(entries=>{
       const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0]
       if(visible) setActiveStep(visible.target.getAttribute('data-step') || '01')
