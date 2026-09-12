@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 const projects = [
   {
     id:'01', title:'E-Pharmacy', type:'WEB APP', year:'2026', stack:['Bubble.io','API','Workflows'],
-    description:'A pharmacy web application concept focused on clear product discovery, structured data and a practical purchase flow.',
+    description:'Online pharmacy platform with medicine-store discovery, pharmacy listings, medicine browsing, registration/login and customer reviews.',
     link:'https://epharmacyvpietukhov-31602.bubbleapps.io/version-test'
   },
   {
     id:'02', title:'Growly', type:'EDTECH', year:'2026', stack:['Bubble.io','UI/UX','Database'],
-    description:'An education-focused product concept built around a clean user journey, structured content and interactive learning flows.',
+    description:'Online learning platform with course catalog, search and categories, course pricing, FAQ, registration and a personal-development focused landing flow.',
     link:'https://growly-67500.bubbleapps.io/version-test'
   },
 ]
@@ -105,12 +105,13 @@ export default function Home(){
         ['01','about','ABOUT','Who I am, what I build and how I work.','about'],
         ['02','projects','PROJECTS','Real-world builds and product experiments.','projects'],
         ['03','certificates','CERTIFICATES','Verified learning and AI No-Code training.','certificate'],
-      ].map(([n,id,title,desc,kind])=><a href={'#'+id} className="quickCard" key={id}><span className="index">{n}</span><HudIcon kind={kind as any}/><h3>{title}</h3><p>{desc}</p><span className="cardArrow">OPEN ↗</span></a>)}
+      ].map(([n,id,title,desc,kind])=><a href={'#'+id} className="quickCard" key={id}><img className="quickCardImage" src={id==='about'?'/images/cards/about.png':id==='projects'?'/images/cards/projects.png':'/images/cards/contact.png'} alt=""/><div className="quickCardOverlay"/><span className="index">{n}</span><HudIcon kind={kind as any}/><h3>{title}</h3><p>{desc}</p><span className="cardArrow">OPEN ↗</span></a>)}
+      </div>
     </section>
 
     <section id="about" className="section container twoCol">
       <div><div className="sectionTag">01 / ABOUT</div><h2>Product thinking.<br/><em>No-code execution.</em></h2><p className="lead">I build digital products with a product-first mindset: understand the problem, map the flow, design the interface, then connect the logic and integrations that make the product useful.</p><p>My focus is Bubble.io, AI-assisted UX, APIs, webhooks and automation — the practical layer between an idea and a working product.</p><a className="textLink" href="#contact">WORK WITH ME <span>→</span></a></div>
-      <div className="aboutPanel"><div className="profileOrb"><HudIcon kind="about"/></div><div className="terminal"><div><span>ROLE</span><b>AI NO-CODE DEVELOPER</b></div><div><span>CORE</span><b>BUBBLE.IO ARCHITECT</b></div><div><span>MODE</span><b>MVP → SAAS</b></div><div><span>STATUS</span><b className="green">ONLINE</b></div></div></div>
+      <div className="aboutPanel"><div className="profilePhotoWrap"><img className="profilePhoto" src="/images/profile/vitalii.jpg" alt="KRYLONTECH developer portrait"/></div><div className="terminal"><div><span>ROLE</span><b>AI NO-CODE DEVELOPER</b></div><div><span>CORE</span><b>BUBBLE.IO ARCHITECT</b></div><div><span>MODE</span><b>MVP → SAAS</b></div><div><span>STATUS</span><b className="green">ONLINE</b></div></div></div>
     </section>
 
     <section id="capabilities" className="section container">
@@ -129,7 +130,7 @@ export default function Home(){
 
     <section id="projects" className="section container">
       <div className="sectionHead"><div><div className="sectionTag">05 / PROJECTS</div><h2>Selected <em>builds.</em></h2></div><a className="textLink" href="#contact">DISCUSS A PROJECT →</a></div>
-      <div className="projectGrid">{projects.map(p=><button className="projectCard" key={p.id} onClick={()=>setSelectedProject(p)}><div className="projectVisual"><div className="projectHud"><span>{p.id}</span><span>LIVE SYSTEM</span></div><div className="projectWindow"><div className="dots">● ● ●</div><div className="chartLine"/><div className="miniBlocks"><i/><i/><i/><i/></div></div></div><div className="projectMeta"><div><span>{p.type} / {p.year}</span><h3>{p.title}</h3></div><b>↗</b></div><p>{p.description}</p><div className="tags">{p.stack.map(s=><span key={s}>{s}</span>)}</div></button>)}</div>
+      <div className="projectGrid">{projects.map(p=><button className="projectCard" key={p.id} onClick={()=>setSelectedProject(p)}><div className="projectVisual"><div className="projectHud"><span>{p.id}</span><span>LIVE SYSTEM</span></div><img className="projectImage" src={p.id==='01'?'/images/projects/e-pharmacy.png':'/images/projects/growly.png'} alt={p.title+' project screenshot'}/></div><div className="projectMeta"><div><span>{p.type} / {p.year}</span><h3>{p.title}</h3></div><b>↗</b></div><p>{p.description}</p><div className="tags">{p.stack.map(s=><span key={s}>{s}</span>)}</div></button>)}</div>
     </section>
 
     <section id="certificates" className="section container certificateSection">
@@ -145,6 +146,6 @@ export default function Home(){
 
     <footer className="footer container"><span>KRYLONTECH</span><span>IDEAS / PRODUCTS / REAL IMPACT</span><span>© 2026</span></footer>
 
-    <AnimatePresence>{selectedProject&&<motion.div className="modalBackdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={()=>setSelectedProject(null)}><motion.div className="projectModal" initial={{y:25,scale:.98}} animate={{y:0,scale:1}} exit={{y:25,scale:.98}} onClick={e=>e.stopPropagation()}><button className="close" onClick={()=>setSelectedProject(null)}>×</button><div className="sectionTag">PROJECT / {selectedProject.id}</div><h2>{selectedProject.title}</h2><p>{selectedProject.description}</p><div className="modalTags">{selectedProject.stack.map(s=><span key={s}>{s}</span>)}</div><a className="primaryBtn" href={selectedProject.link} target="_blank" rel="noreferrer">OPEN LIVE PROJECT ↗</a></motion.div></motion.div>}</AnimatePresence>
+    <AnimatePresence>{selectedProject&&<motion.div className="modalBackdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={()=>setSelectedProject(null)}><motion.div className="projectModal" initial={{y:25,scale:.98}} animate={{y:0,scale:1}} exit={{y:25,scale:.98}} onClick={e=>e.stopPropagation()}><button className="close" onClick={()=>setSelectedProject(null)}>×</button><div className="sectionTag">PROJECT / {selectedProject.id}</div><img className="modalProjectImage" src={selectedProject.id==='01'?'/images/projects/e-pharmacy.png':'/images/projects/growly.png'} alt={selectedProject.title+' project screenshot'}/><h2>{selectedProject.title}</h2><p>{selectedProject.description}</p><div className="modalTags">{selectedProject.stack.map(s=><span key={s}>{s}</span>)}</div><a className="primaryBtn" href={selectedProject.link} target="_blank" rel="noreferrer">OPEN LIVE PROJECT ↗</a></motion.div></motion.div>}</AnimatePresence>
   </main>
 }
