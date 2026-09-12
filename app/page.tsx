@@ -106,7 +106,6 @@ export default function Home(){
         ['02','projects','PROJECTS','Real-world builds and product experiments.','projects'],
         ['03','certificates','CERTIFICATES','Verified learning and AI No-Code training.','certificate'],
       ].map(([n,id,title,desc,kind])=><a href={'#'+id} className="quickCard" key={id}><img className="quickCardImage" src={id==='about'?'/images/cards/about.png':id==='projects'?'/images/cards/projects.png':'/images/cards/contact.png'} alt=""/><div className="quickCardOverlay"/><span className="index">{n}</span><HudIcon kind={kind as any}/><h3>{title}</h3><p>{desc}</p><span className="cardArrow">OPEN ↗</span></a>)}
-      </div>
     </section>
 
     <section id="about" className="section container twoCol">
