@@ -72,7 +72,7 @@ export default function Home(){
   return <main>
     <div className="scanline" />
     <header className="navWrap">
-      <a className="brand" href="#home"><span>KRYLON</span><b>TECH</b></a>
+      <a className="brand" href="#home"><span>VITALII</span><b> PIETUKHOV</b></a>
       <button className="menuBtn" onClick={()=>setMenu(v=>!v)} aria-label={menu?"Close menu":"Open menu"} aria-expanded={menu}>☰</button>
       <nav className={menu?'nav open':'nav'}>
         {['about','capabilities','tech-stack','projects','price','contact'].map(x=><a key={x} href={'#'+x} onClick={()=>setMenu(false)}>{x.replace('-',' ')}</a>)}
@@ -84,9 +84,9 @@ export default function Home(){
       <div className="hudCorner tl"/><div className="hudCorner tr"/><div className="hudCorner bl"/><div className="hudCorner br"/>
       <div className="heroGrid">
         <motion.div className="heroCopy" initial={{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:.7}}>
-          <div className="eyebrow"><i/> KRYLONTECH // DIGITAL PRODUCT SYSTEM</div>
+          <div className="eyebrow"><i/> VITALII PIETUKHOV // AI NO-CODE DEVELOPER</div>
           <h1>Ideas into <em>real products.</em></h1>
-          <p>KRYLONTECH turns ideas into scalable digital products — from landing pages and MVPs to SaaS platforms and web apps.</p>
+          <p>I turn ideas into scalable digital products — from landing pages and MVPs to SaaS platforms and web apps.</p>
           <div className="heroActions"><a className="primaryBtn" href="#projects">VIEW PROJECTS <span>↗</span></a><a className="ghostBtn" href="#contact">START A PROJECT</a></div>
           <div className="microStats"><span><b>NO-CODE</b> DEVELOPMENT</span><span><b>AI</b> INTEGRATIONS</span><span><b>API</b> AUTOMATION</span></div>
         </motion.div>
@@ -94,28 +94,30 @@ export default function Home(){
           <div className="panelTop"><span>SYSTEM / 01</span><span className="live"><i/> AVAILABLE FOR PROJECTS</span></div>
           <div className="orb"><div className="orbCore"/><div className="orbRing r1"/><div className="orbRing r2"/><div className="orbRing r3"/><span className="cross c1"/><span className="cross c2"/></div>
           <div className="panelReadout"><span>BUILD MODE</span><strong>ACTIVE</strong><span>STACK</span><strong>BUBBLE / AI / API</strong></div>
-          <div className="codeLine">KRYL-X01 // PRODUCT_READY // 2026</div>
+          <div className="codeLine">VP-X01 // PRODUCT_READY // 2026</div>
         </motion.div>
       </div>
       <div className="scrollHint">SCROLL TO EXPLORE <span>↓</span></div>
     </section>
 
     <section className="quickNav container">
-      {[
-        ['01','about','ABOUT','Who I am, what I build and how I work.','about'],
-        ['02','projects','PROJECTS','Real-world builds and product experiments.','projects'],
-        ['03','certificates','CERTIFICATES','Verified learning and AI No-Code training.','certificate'],
-      ].map(([n,id,title,desc,kind])=><a href={'#'+id} className="quickCard" key={id}><img className="quickCardImage" src={id==='about'?'/images/cards/about.png':id==='projects'?'/images/cards/projects.png':'/images/cards/contact.png'} alt=""/><div className="quickCardOverlay"/><span className="index">{n}</span><HudIcon kind={kind as any}/><h3>{title}</h3><p>{desc}</p><span className="cardArrow">OPEN ↗</span></a>)}
+      <div className="quickNavInner">
+        {[
+          ['01','about','ABOUT','Who I am, what I build and how I work.','about'],
+          ['02','projects','PROJECTS','Real-world builds and product experiments.','projects'],
+          ['03','certificates','CERTIFICATES','Verified learning and AI No-Code training.','certificate'],
+        ].map(([n,id,title,desc,kind])=><a href={'#'+id} className="quickCard" key={id}><img className="quickCardImage" src={id==='about'?'/images/cards/about.png':id==='projects'?'/images/cards/projects.png':'/images/cards/contact.png'} alt=""/><div className="quickCardOverlay"/><span className="index">{n}</span><HudIcon kind={kind as any}/><h3>{title}</h3><p>{desc}</p><span className="cardArrow">OPEN ↗</span></a>)}
+      </div>
     </section>
 
     <section id="about" className="section container twoCol">
       <div><div className="sectionTag">01 / ABOUT</div><h2>Product thinking.<br/><em>No-code execution.</em></h2><p className="lead">I build digital products with a product-first mindset: understand the problem, map the flow, design the interface, then connect the logic and integrations that make the product useful.</p><p>My focus is Bubble.io, AI-assisted UX, APIs, webhooks and automation — the practical layer between an idea and a working product.</p><a className="textLink" href="#contact">WORK WITH ME <span>→</span></a></div>
-      <div className="aboutPanel"><div className="profilePhotoWrap"><img className="profilePhoto" src="/images/profile/vitalii.jpg" alt="KRYLONTECH developer portrait"/></div><div className="terminal"><div><span>ROLE</span><b>AI NO-CODE DEVELOPER</b></div><div><span>CORE</span><b>BUBBLE.IO ARCHITECT</b></div><div><span>MODE</span><b>MVP → SAAS</b></div><div><span>STATUS</span><b className="green">ONLINE</b></div></div></div>
+      <div className="aboutPanel"><div className="profilePhotoWrap"><img className="profilePhoto" src="/images/profile/vitalii.jpg" alt="Vitalii Pietukhov — AI No-Code Developer"/></div><div className="terminal"><div><span>ROLE</span><b>AI NO-CODE DEVELOPER</b></div><div><span>CORE</span><b>BUBBLE.IO ARCHITECT</b></div><div><span>MODE</span><b>MVP → SAAS</b></div><div><span>STATUS</span><b className="green">ONLINE</b></div></div></div>
     </section>
 
     <section id="capabilities" className="section container">
       <div className="sectionHead"><div><div className="sectionTag">02 / CAPABILITIES</div><h2>What I can <em>build.</em></h2></div><p>Each capability is a building block. Combine them into a complete product workflow.</p></div>
-      <div className="capGrid"><div className="capList">{capabilities.map((c,i)=><button key={c[0]} className={i===activeCapability?'capItem active':'capItem'} onMouseEnter={()=>setActiveCapability(i)} onFocus={()=>setActiveCapability(i)}><span>{c[0]}</span><strong>{c[1]}</strong><b>↗</b></button>)}</div><div className="capDisplay"><div className="displayCode">MODULE // {capabilities[activeCapability][0]}</div><h3>{capabilities[activeCapability][1]}</h3><p>{capabilities[activeCapability][2]}</p><div className="displayLines"><i/><i/><i/><i/></div><div className="displayFooter">KRYLON-X / READY TO DEPLOY</div></div></div>
+      <div className="capGrid"><div className="capList">{capabilities.map((c,i)=><button key={c[0]} className={i===activeCapability?'capItem active':'capItem'} onMouseEnter={()=>setActiveCapability(i)} onFocus={()=>setActiveCapability(i)}><span>{c[0]}</span><strong>{c[1]}</strong><b>↗</b></button>)}</div><div className="capDisplay"><div className="displayCode">MODULE // {capabilities[activeCapability][0]}</div><h3>{capabilities[activeCapability][1]}</h3><p>{capabilities[activeCapability][2]}</p><div className="displayLines"><i/><i/><i/><i/></div><div className="displayFooter">VP-X / READY TO DEPLOY</div></div></div>
     </section>
 
     <section id="tech-stack" className="section container">
@@ -143,7 +145,7 @@ export default function Home(){
 
     <section id="contact" className="section contactSection"><div className="container contactBox"><div className="contactIcon"><HudIcon kind="mail"/></div><div><div className="sectionTag">08 / CONTACT</div><h2>Let&apos;s build something <em>real.</em></h2><p>Tell me what you want to launch and I&apos;ll help turn it into a clear product plan.</p></div><div className="contactLinks"><a href="mailto:vitaliipietukhov@gmail.com">EMAIL <span>↗</span></a><a href="tel:+48666675728">PHONE <span>↗</span></a><a href="https://wa.me/48666675728" target="_blank" rel="noreferrer">WHATSAPP <span>↗</span></a><a href="https://www.linkedin.com/in/vitalii-pietukhov" target="_blank" rel="noreferrer">LINKEDIN <span>↗</span></a><a href="https://t.me/vitalii_bioome" target="_blank" rel="noreferrer">TELEGRAM <span>↗</span></a><a href="https://krylontech-portfolio.vercel.app" target="_blank" rel="noreferrer">PORTFOLIO <span>↗</span></a></div></div></section>
 
-    <footer className="footer container"><span>KRYLONTECH</span><span>IDEAS / PRODUCTS / REAL IMPACT</span><span>© 2026</span></footer>
+    <footer className="footer container"><span>VITALII PIETUKHOV</span><span>PERSONAL BRAND / KRYLONTECH</span><span>© 2026</span></footer>
 
     <AnimatePresence>{selectedProject&&<motion.div className="modalBackdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={()=>setSelectedProject(null)}><motion.div className="projectModal" initial={{y:25,scale:.98}} animate={{y:0,scale:1}} exit={{y:25,scale:.98}} onClick={e=>e.stopPropagation()}><button className="close" onClick={()=>setSelectedProject(null)}>×</button><div className="sectionTag">PROJECT / {selectedProject.id}</div><img className="modalProjectImage" src={selectedProject.id==='01'?'/images/projects/e-pharmacy.png':'/images/projects/growly.png'} alt={selectedProject.title+' project screenshot'}/><h2>{selectedProject.title}</h2><p>{selectedProject.description}</p><div className="modalTags">{selectedProject.stack.map(s=><span key={s}>{s}</span>)}</div><a className="primaryBtn" href={selectedProject.link} target="_blank" rel="noreferrer">OPEN LIVE PROJECT ↗</a></motion.div></motion.div>}</AnimatePresence>
   </main>
