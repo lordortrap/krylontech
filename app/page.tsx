@@ -62,17 +62,6 @@ export default function Home() {
     }
   }, [selectedProject])
 
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-step]'))
-    // fires when a step crosses the horizontal centre line of the viewport
-    const io = new IntersectionObserver(entries => {
-      const hit = entries.find(e => e.isIntersecting)
-      if (hit) setActiveStep(hit.target.getAttribute('data-step') || '01')
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 })
-    els.forEach(e => io.observe(e))
-    return () => io.disconnect()
-  }, [])
-
   const trapFocus = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== 'Tab') return
     const f = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('a[href],button'))
@@ -197,7 +186,7 @@ export default function Home() {
               <div className="workflowRail">
                 <i className="railFill" style={{ height: `${(Number(activeStep) / workflow.length) * 100}%` }} />
                 {workflow.map(([num, title, desc]) => (
-                  <div data-step={num} onClick={() => setActiveStep(num)} className={activeStep === num ? 'workflowStep active' : 'workflowStep'} key={num}>
+                  <div tabIndex={0} onMouseEnter={() => setActiveStep(num)} onFocus={() => setActiveStep(num)} onClick={() => setActiveStep(num)} className={activeStep === num ? 'workflowStep active' : 'workflowStep'} key={num}>
                     <span>{num}</span><div><h3>{title}</h3><p>{desc}</p></div>
                   </div>
                 ))}
@@ -207,7 +196,7 @@ export default function Home() {
               <div className="monitorHeader"><span>PIPELINE</span><b>{activeStep} / 05</b></div>
               <div className="pipeline">
                 {workflow.map(([num, title]) => (
-                  <div key={num} onClick={() => setActiveStep(num)} className={Number(num) < Number(activeStep) ? 'pipe done' : activeStep === num ? 'pipe active' : 'pipe'}><span>{num}</span><i /><b>{title}</b></div>
+                  <div key={num} onMouseEnter={() => setActiveStep(num)} onClick={() => setActiveStep(num)} className={Number(num) < Number(activeStep) ? 'pipe done' : activeStep === num ? 'pipe active' : 'pipe'}><span>{num}</span><i /><b>{title}</b></div>
                 ))}
               </div>
               <div className="monitorFooter">STATUS: <strong>PRODUCT FLOW OPTIMIZED</strong></div>
