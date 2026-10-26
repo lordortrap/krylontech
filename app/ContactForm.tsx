@@ -3,12 +3,10 @@
 import { FormEvent, useState } from 'react'
 import { contact } from './data'
 
-const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT
-
 type Props = { plan: string; message: string; setMessage: (v: string) => void }
 
 export default function ContactForm({ plan, message, setMessage }: Props) {
-  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'fallback' | 'limited'>('idle')
 
   const mailto = (d: FormData) => {
     const subject = encodeURIComponent(`Project inquiry${plan ? ` — ${plan}` : ''}`)
@@ -20,21 +18,21 @@ export default function ContactForm({ plan, message, setMessage }: Props) {
     e.preventDefault()
     const form = e.currentTarget
     const data = new FormData(form)
-    if (data.get('company')) return // honeypot
-    if (!ENDPOINT) {
-      window.location.href = mailto(data)
-      setState('sent')
-      return
-    }
     setState('sending')
     try {
-      const res = await fetch(ENDPOINT, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
-      if (!res.ok) throw new Error('bad status')
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(data)),
+      })
+      if (res.status === 429) { setState('limited'); return }
+      if (!res.ok) throw new Error(String(res.status))
       form.reset()
       setMessage('')
       setState('sent')
     } catch {
-      setState('error')
+      // server unavailable or not configured: hand the message over to the visitor's mail app
+      setState('fallback')
       window.location.href = mailto(data)
     }
   }
@@ -51,8 +49,9 @@ export default function ContactForm({ plan, message, setMessage }: Props) {
         {state === 'sending' ? 'SENDING…' : 'SEND MESSAGE'} <span>↗</span>
       </button>
       <p className="formNote" role="status" aria-live="polite">
-        {state === 'sent' && (ENDPOINT ? 'Thank you! Your message was sent — I will reply soon.' : 'Your mail app should open with the message ready to send.')}
-        {state === 'error' && 'Could not send directly — opening your mail app instead.'}
+        {state === 'sent' && 'Thank you! Your message was sent — I will reply soon.'}
+        {state === 'fallback' && 'Could not send directly — your mail app should open with the message ready to send.'}
+        {state === 'limited' && 'Too many messages in a short time. Please try again in a few minutes or write to me on Telegram.'}
       </p>
     </form>
   )
