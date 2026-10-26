@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 // blocks that fade/slide/unblur into view when scrolled to
 const BLOCKS = [
   '.sectionHead > *', '.twoCol > *', '.capGrid', '.stackCard', '.workflowLayout > *', '.quickCard',
-  '.projectCard', '.reviewEmpty', '.reviewCard', '.demoNote', '.certificateCard', '.priceCard', '.contactBox', '.footer',
+  '.projectCard', '.reviewEmpty', '.faqItem', '.reviewCard', '.demoNote', '.certificateCard', '.priceCard', '.contactBox', '.footer',
 ].join(',')
 // headings revealed word by word
 const HEADINGS = '.section h2, .workflowLayout h2'

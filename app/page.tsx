@@ -7,9 +7,9 @@ import ContactForm from './ContactForm'
 import ShaderBackground from './ShaderBackground'
 import CursorGlow from './CursorGlow'
 import RevealController from './RevealController'
-import { projects, capabilities, stack, workflow, pricing, contact, testimonials, certificate, type Project } from './data'
+import { projects, capabilities, stack, workflow, pricing, contact, testimonials, certificate, faq, type Project } from './data'
 
-const navItems = ['about', 'capabilities', 'tech-stack', 'projects', 'certificates', 'reviews', 'price', 'contact']
+const navItems = ['about', 'capabilities', 'tech-stack', 'projects', 'certificates', 'reviews', 'price', 'faq', 'contact']
 
 const quickCards = [
   { n: '01', id: 'about', title: 'ABOUT', desc: 'Who I am, what I build and how I work.', img: '/images/cards/about.png' },
@@ -283,11 +283,27 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="faq" className="section container">
+        <div className="sectionHead"><div><div className="sectionTag">09 / FAQ</div><h2>Before we <em>start.</em></h2></div><p>How I work, what it costs and what you get at the end.</p></div>
+        <div className="faqList">
+          {faq.map(([q, a]) => (
+            <details className="faqItem" key={q}>
+              <summary>{q}<span aria-hidden="true" /></summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org', '@type': 'FAQPage',
+          mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+        }) }} />
+      </section>
+
       <section id="contact" className="section contactSection">
         <div className="container contactBox">
           <div className="contactIcon"><HudIcon kind="mail" /></div>
           <div>
-            <div className="sectionTag">09 / CONTACT</div>
+            <div className="sectionTag">10 / CONTACT</div>
             <h2>Let&apos;s build something <em>real.</em></h2>
             <p>I&apos;m open to freelance projects, collaborations and long-term development work. Tell me what you want to launch and I&apos;ll reply with a clear plan and quote.</p>
             <ContactForm plan={plan} message={message} setMessage={setMessage} />

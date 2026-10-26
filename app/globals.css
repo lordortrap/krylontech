@@ -174,3 +174,24 @@ main>section,main>footer{position:relative;z-index:1}
 .reviewEmpty{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;border:1px dashed rgba(35,146,255,.45);background:rgba(5,13,23,.9);padding:34px 38px}
 .reviewEmpty h3{margin:0 0 8px;font-size:22px}
 .reviewEmpty p{margin:0;max-width:640px}
+
+/* FAQ */
+.faqList{display:grid;gap:10px;max-width:900px}
+.faqItem{border:1px solid var(--line);background:rgba(5,13,23,.88);transition:border-color .3s,box-shadow .3s}
+.faqItem:hover,.faqItem[open]{border-color:rgba(40,200,255,.55);box-shadow:0 0 28px rgba(18,170,255,.08)}
+.faqItem summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 24px;cursor:pointer;list-style:none;font-size:16px;font-weight:600;letter-spacing:.02em}
+.faqItem summary::-webkit-details-marker{display:none}
+.faqItem summary span{flex:none;position:relative;width:16px;height:16px}
+.faqItem summary span:before,.faqItem summary span:after{content:'';position:absolute;left:0;top:7px;width:16px;height:2px;background:var(--cyan);transition:transform .3s}
+.faqItem summary span:after{transform:rotate(90deg)}
+.faqItem[open] summary span:after{transform:rotate(0)}
+.faqItem[open] summary{color:var(--cyan)}
+.faqItem p{margin:0;padding:0 24px 22px;max-width:760px;font-size:14px;color:#a4b8ca;animation:faqIn .35s ease}
+@keyframes faqIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* nav: nine links need less room */
+.brand{white-space:nowrap}
+.nav{flex-wrap:nowrap;white-space:nowrap}
+@media(max-width:1250px){.nav{gap:15px;font-size:10px}.navCta{display:none}}
+@media(max-width:1000px){.nav{gap:11px;letter-spacing:.1em}.brand{font-size:17px}}
+@media(max-width:900px){.nav{white-space:normal}}

@@ -171,3 +171,16 @@ export const contact = {
   linkedin: 'https://www.linkedin.com/in/vitalii-pietukhov/',
   telegram: 'https://t.me/vitalii_bioome',
 }
+
+export const faq = [
+  ['How does a project work?', 'Every project follows five stages: discover, design, build, connect and launch. Scope is fixed up front, work goes in clear stages, and you get a clickable demo after every milestone, so you always see real progress.'],
+  ['How long does it take?', 'An MVP launch takes about 3–5 weeks, a client or operations portal 4–6 weeks, and integrations and automation 1–2 weeks. Exact timelines depend on scope and are confirmed after a short discovery.'],
+  ['How much does it cost?', 'Prices start at €250 for landing pages, €600 for an MVP and €1,200 for portals and SaaS products. I confirm a fixed estimate after discovery. For fixes and iterations the hourly rate is €25.'],
+  ['How does payment work?', 'Payment goes by milestone: you pay for each stage after seeing the clickable demo of it, so there are no surprises at the end.'],
+  ['Who owns the app after delivery?', 'You do. At launch I hand over the Bubble app (account access or a copy) together with a short handover guide, so the product is yours to run and extend.'],
+  ['What happens after launch?', 'Support after launch is discussed individually, depending on what your product needs. Fixes, changes and new features can also be done at the hourly rate.'],
+  ['Is it secure and ready for payments?', 'I build role-based access with Bubble Privacy Rules, so each user sees only what they are allowed to. Stripe payments are tested in test mode first and switched to live mode when you are ready.'],
+  ['Which languages and devices do you support?', 'Interfaces are responsive for desktop and mobile, and can be English and Ukrainian (EN/UA) when needed, as in E-Pharmacy and Growly.'],
+  ['What do I need to get started?', 'A short description of your idea: who the users are and the three to five things the product must do. Send it through the form and I will reply with a clear plan and quote.'],
+  ['Are the projects on this page real clients?', 'They are portfolio demos built on Bubble in a test environment with Stripe in test mode. They show the full development lifecycle, from analysis and planning to logic, integrations, security and optimization.'],
+] as const
