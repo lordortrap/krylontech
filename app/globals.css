@@ -80,3 +80,19 @@ button.primaryBtn:disabled{opacity:.6;cursor:wait}
 .pipe.done i:after{background:#1a6a98;left:calc(100% - 5px)}
 .pipe.active i:after{left:calc(100% - 5px)}
 .pipe b{transition:color .4s}
+
+/* animated shader background (toggle: BG FX button) */
+.shaderBg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.27;mix-blend-mode:screen}
+main>section,main>footer{position:relative;z-index:1}
+.navWrap{position:fixed!important}
+.fxToggle{position:fixed;z-index:70;right:16px;bottom:16px;display:flex;align-items:center;gap:8px;background:rgba(2,6,14,.82);backdrop-filter:blur(10px);border:1px solid var(--line);color:#9db0c4;font-size:10px;letter-spacing:.16em;padding:9px 12px;cursor:pointer}
+.fxToggle:hover{color:var(--cyan);border-color:var(--cyan)}
+.fxToggle i{width:7px;height:7px;border-radius:50%;background:#35506a}
+.fxToggle i.on{background:var(--green);box-shadow:0 0 10px var(--green)}
+/* readability over the animated background */
+.hudCorner{width:80px;height:80px}
+.ghostBtn{background:rgba(3,10,20,.88);border-color:#1fa9f0;color:#e6f6ff;font-weight:600;box-shadow:0 0 18px rgba(18,160,255,.18)}
+.ghostBtn:hover{border-color:var(--cyan);color:var(--cyan)}
+.systemPanel{background:linear-gradient(145deg,rgba(5,14,26,.97),rgba(2,6,13,.97))}
+.microStats{color:#a9c3d8;text-shadow:0 1px 8px rgba(2,6,14,.9)}.eyebrow{text-shadow:0 1px 8px rgba(2,6,14,.9);color:#a6c0d6}
+

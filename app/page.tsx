@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import ContactForm from './ContactForm'
+import ShaderBackground from './ShaderBackground'
 import { projects, capabilities, stack, workflow, pricing, contact, type Project } from './data'
 
 const navItems = ['about', 'capabilities', 'tech-stack', 'projects', 'certificates', 'price', 'contact']
@@ -79,6 +80,7 @@ export default function Home() {
 
   return (
     <main>
+      <ShaderBackground />
       <div className="scanline" />
       <header className="navWrap">
         <a className="brand" href="#home"><span>VITALII</span><b> PIETUKHOV</b></a>
