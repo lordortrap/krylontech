@@ -96,3 +96,21 @@ main>section,main>footer{position:relative;z-index:1}
 .systemPanel{background:linear-gradient(145deg,rgba(5,14,26,.97),rgba(2,6,13,.97))}
 .microStats{color:#a9c3d8;text-shadow:0 1px 8px rgba(2,6,14,.9)}.eyebrow{text-shadow:0 1px 8px rgba(2,6,14,.9);color:#a6c0d6}
 
+/* cursor highlight (desktop mouse only) */
+.cursorGlow{position:fixed;left:0;top:0;pointer-events:none;opacity:0;transition:opacity .3s}
+.cursorGlow{z-index:55;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(25,200,255,.24) 0,rgba(21,156,255,.1) 38%,transparent 68%);mix-blend-mode:screen}
+@media(hover:none),(pointer:coarse){.cursorGlow{display:none}}
+/* light-catching card borders: --mx/--my are set by CursorGlow */
+.stackCard,.quickCard,.projectCard,.priceCard,.certificateCard,.contactBox,.aboutPanel,.capGrid,.workflowMonitor{position:relative;--mx:-999px;--my:-999px}
+.stackCard:before,.quickCard:before,.projectCard:before,.priceCard:before,.certificateCard:before,.contactBox:before,.aboutPanel:before,.capGrid:before,.workflowMonitor:before{content:'';position:absolute;inset:0;padding:1px;pointer-events:none;z-index:4;background:radial-gradient(300px circle at var(--mx) var(--my),rgba(60,225,255,.95),rgba(21,156,255,.35) 45%,transparent 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.stackCard:after,.quickCard:after,.priceCard:after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(240px circle at var(--mx) var(--my),rgba(25,200,255,.07),transparent 70%)}
+.quickCard:after{z-index:1}
+/* text link hover */
+.textLink{position:relative;transition:color .25s,letter-spacing .25s}
+.textLink span{display:inline-block;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.textLink:after{content:'';position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--cyan);box-shadow:0 0 10px var(--cyan);transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.textLink:hover,.textLink:focus-visible{color:var(--cyan);letter-spacing:.22em}
+.textLink:hover:after,.textLink:focus-visible:after{width:100%}
+.textLink:hover span,.textLink:focus-visible span{transform:translateX(10px)}
+@media(prefers-reduced-motion:reduce){.textLink:hover{letter-spacing:.18em}}
+
