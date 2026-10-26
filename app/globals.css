@@ -6,8 +6,8 @@
 .contactLinks a{word-break:break-word}
 @media (max-width:600px){.contactLinks{grid-template-columns:1fr}.contactLinks a{min-width:0}}
 
-.modalVisual .projectImage,.modalProjectImage{width:100%;height:240px;object-fit:cover;object-position:top center;border:1px solid rgba(28,175,255,.45);margin:18px 0 8px;box-shadow:0 0 30px rgba(0,143,255,.12)}
-@media(max-width:600px){.modalVisual .projectImage{height:180px}}
+.modalProjectImage{width:100%;height:240px;object-fit:cover;object-position:top center;border:1px solid rgba(28,175,255,.45);margin:18px 0 8px;box-shadow:0 0 30px rgba(0,143,255,.12)}
+
 
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .nav{flex-wrap:wrap;gap:20px}
@@ -23,8 +23,6 @@ button.primaryBtn:disabled{opacity:.6;cursor:wait}
 .stackCard p,.workflowStep p,.priceCard p{font-size:13px}
 .projectCard>p{font-size:13px}
 .projectCard{display:block;width:100%}
-.projectImage{height:auto;aspect-ratio:16/10}
-.projectVisual .projectImage{height:78%;aspect-ratio:auto}
 .mockTitle{margin-top:14px;font-size:13px;letter-spacing:.2em;color:#cfeeff}
 .projectWindow{background:rgba(5,14,25,.7)}
 .demoNote{margin-top:22px;font-size:12px;color:#6f889f}
@@ -47,3 +45,38 @@ button.primaryBtn:disabled{opacity:.6;cursor:wait}
 .contactBox{align-items:start}
 @media(max-width:900px){.contactBox{grid-template-columns:1fr}.contactIcon{justify-items:start}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.scanline{display:none}}
+
+.projectVisual{overflow:hidden}
+.projectVisual .projectImage{position:absolute;left:9%;top:13%;width:82%;height:80%;object-fit:cover;object-position:top center}
+.modalVisual{position:relative;height:240px;overflow:hidden}
+.modalVisual .projectImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.modalVisual .projectWindow{width:80%;height:170px}
+@media(max-width:600px){.modalVisual{height:180px}.projectVisual .projectImage{width:86%;left:7%}}
+/* certificate preview */
+.certPaper{position:relative;width:min(300px,80%);aspect-ratio:1.414;border:1px solid #1fb7ff;background:linear-gradient(145deg,#0a1a2e,#050d17);box-shadow:0 0 40px rgba(18,160,255,.18);padding:26px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.certPaper:before{content:'';position:absolute;inset:8px;border:1px dashed rgba(25,228,255,.3);pointer-events:none}
+.certOrg{font-size:10px;letter-spacing:.3em;color:#7ec9ee}
+.certPaper b{font-size:20px;letter-spacing:.22em;margin-top:6px}
+.certPaper small{font-size:8px;letter-spacing:.3em;color:#7b9ab3}
+.certPaper strong{font-size:16px;margin-top:14px;color:#eafaff}
+.certPaper em{font-style:normal;font-size:10px;letter-spacing:.2em;color:var(--cyan)}
+.certPaper i{display:block;width:60%;height:3px;background:#12395a;margin-top:6px}
+.certPaper i:nth-of-type(2){width:45%}.certPaper i:nth-of-type(3){width:52%}
+.certPaper .seal{right:14px;bottom:14px;background:#050d17}
+.certificateVisual{padding:20px 0}
+.certCode{top:4%}
+/* workflow animation */
+.workflowRail{position:relative;border-left:1px solid #165c88}
+.railFill{position:absolute;left:-1px;top:0;width:2px;background:linear-gradient(180deg,#0d8cf0,var(--cyan));box-shadow:0 0 14px var(--cyan);transition:height .6s cubic-bezier(.4,0,.2,1)}
+.workflowStep{cursor:pointer;opacity:.4;transform:translateX(0);transition:opacity .5s ease,transform .5s ease,background .5s ease;border-left:2px solid transparent;margin-left:-1px}
+.workflowStep.active{border-left-color:transparent;transform:translateX(10px);opacity:1}
+.workflowStep h3,.workflowStep span{transition:color .4s}
+.workflowStep.active h3{color:var(--cyan)}
+.pipe{cursor:pointer;transition:color .4s}
+.pipe i{overflow:visible;transition:background .5s,box-shadow .5s}
+.pipe i:after{transition:background .5s,box-shadow .5s,left .6s cubic-bezier(.4,0,.2,1)}
+.pipe.done{color:#6aa6c8}
+.pipe.done i{background:#1a6a98}
+.pipe.done i:after{background:#1a6a98;left:calc(100% - 5px)}
+.pipe.active i:after{left:calc(100% - 5px)}
+.pipe b{transition:color .4s}

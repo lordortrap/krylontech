@@ -5,7 +5,9 @@ import { contact } from './data'
 
 const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT
 
-export default function ContactForm({ plan }: { plan: string }) {
+type Props = { plan: string; message: string; setMessage: (v: string) => void }
+
+export default function ContactForm({ plan, message, setMessage }: Props) {
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   const mailto = (d: FormData) => {
@@ -29,6 +31,7 @@ export default function ContactForm({ plan }: { plan: string }) {
       const res = await fetch(ENDPOINT, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
       if (!res.ok) throw new Error('bad status')
       form.reset()
+      setMessage('')
       setState('sent')
     } catch {
       setState('error')
@@ -43,7 +46,7 @@ export default function ContactForm({ plan }: { plan: string }) {
       <label>NAME<input name="name" required minLength={2} autoComplete="name" /></label>
       <label>EMAIL<input name="email" type="email" required autoComplete="email" /></label>
       {plan && <div className="planTag">SELECTED: {plan}</div>}
-      <label>PROJECT<textarea name="message" required minLength={10} rows={4} placeholder="What do you want to launch?" /></label>
+      <label>PROJECT<textarea id="message" name="message" required minLength={10} rows={5} value={message} onChange={e => setMessage(e.target.value)} placeholder="What do you want to launch?" /></label>
       <button className="primaryBtn" type="submit" disabled={state === 'sending'}>
         {state === 'sending' ? 'SENDING…' : 'SEND MESSAGE'} <span>↗</span>
       </button>

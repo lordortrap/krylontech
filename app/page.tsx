@@ -38,6 +38,7 @@ export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [menu, setMenu] = useState(false)
   const [plan, setPlan] = useState('')
+  const [message, setMessage] = useState('')
   const closeRef = useRef<HTMLButtonElement>(null)
   const lastFocus = useRef<HTMLElement | null>(null)
 
@@ -63,10 +64,11 @@ export default function Home() {
 
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>('[data-step]'))
+    // fires when a step crosses the horizontal centre line of the viewport
     const io = new IntersectionObserver(entries => {
-      const visible = entries.filter(e => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-      if (visible) setActiveStep(visible.target.getAttribute('data-step') || '01')
-    }, { threshold: [0.35, 0.6, 0.85] })
+      const hit = entries.find(e => e.isIntersecting)
+      if (hit) setActiveStep(hit.target.getAttribute('data-step') || '01')
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 })
     els.forEach(e => io.observe(e))
     return () => io.disconnect()
   }, [])
@@ -80,7 +82,11 @@ export default function Home() {
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
   }
 
-  const choosePlan = (name: string) => setPlan(name)
+  const choosePlan = (name: string, text: string) => {
+    setPlan(name)
+    setMessage(text)
+    setTimeout(() => document.getElementById('message')?.focus({ preventScroll: true }), 600)
+  }
 
   return (
     <main>
@@ -165,7 +171,7 @@ export default function Home() {
             <h3>{capabilities[activeCapability][1]}</h3>
             <p>{capabilities[activeCapability][2]}</p>
             <div className="displayLines"><i /><i /><i /><i /></div>
-            <a className="textLink" href="#contact" onClick={() => choosePlan(capabilities[activeCapability][1])}>DISCUSS THIS <span>→</span></a>
+            <a className="textLink" href="#contact" onClick={() => choosePlan(capabilities[activeCapability][1], `Hi Vitalii! I'm interested in ${capabilities[activeCapability][1]}. My project: `)}>DISCUSS THIS <span>→</span></a>
           </div>
         </div>
       </section>
@@ -189,8 +195,9 @@ export default function Home() {
               <h2>From <em>idea</em> to launch.</h2>
               <p className="lead">A transparent process that keeps the product, design and technical logic moving together.</p>
               <div className="workflowRail">
+                <i className="railFill" style={{ height: `${(Number(activeStep) / workflow.length) * 100}%` }} />
                 {workflow.map(([num, title, desc]) => (
-                  <div data-step={num} className={activeStep === num ? 'workflowStep active' : 'workflowStep'} key={num}>
+                  <div data-step={num} onClick={() => setActiveStep(num)} className={activeStep === num ? 'workflowStep active' : 'workflowStep'} key={num}>
                     <span>{num}</span><div><h3>{title}</h3><p>{desc}</p></div>
                   </div>
                 ))}
@@ -200,7 +207,7 @@ export default function Home() {
               <div className="monitorHeader"><span>PIPELINE</span><b>{activeStep} / 05</b></div>
               <div className="pipeline">
                 {workflow.map(([num, title]) => (
-                  <div key={num} className={activeStep === num ? 'pipe active' : 'pipe'}><span>{num}</span><i /><b>{title}</b></div>
+                  <div key={num} onClick={() => setActiveStep(num)} className={Number(num) < Number(activeStep) ? 'pipe done' : activeStep === num ? 'pipe active' : 'pipe'}><span>{num}</span><i /><b>{title}</b></div>
                 ))}
               </div>
               <div className="monitorFooter">STATUS: <strong>PRODUCT FLOW OPTIMIZED</strong></div>
@@ -236,7 +243,18 @@ export default function Home() {
             <div className="certMeta"><span>GOIT</span><span>AI NO-CODE</span><span>08 / 09 / 2026</span></div>
             <a className="primaryBtn" href="/certificates/Vitalii-Pietukhov.pdf" target="_blank" rel="noreferrer">VIEW CERTIFICATE ↗</a>
           </div>
-          <div className="certificateVisual"><HudIcon kind="certificate" /><div className="seal">AI<br />NO-CODE</div><span className="certCode">CERT / 47952</span></div>
+          <div className="certificateVisual" aria-hidden="true">
+            <div className="certPaper">
+              <span className="certOrg">GOIT</span>
+              <b>CERTIFICATE</b>
+              <small>OF COMPLETION</small>
+              <strong>Vitalii Pietukhov</strong>
+              <em>AI No-Code</em>
+              <i /><i /><i />
+              <div className="seal">AI<br />NO-CODE</div>
+            </div>
+            <span className="certCode">CERT / 47952</span>
+          </div>
         </div>
       </section>
 
@@ -247,7 +265,7 @@ export default function Home() {
             <div className={i === 1 ? 'priceCard featured' : 'priceCard'} key={p[0]}>
               {i === 1 && <span className="popular">MOST REQUESTED</span>}
               <span>{p[0]}</span><strong>{p[1]}</strong><h3>{p[2]}</h3><p>{p[3]}</p><em className="timeline">{p[4]}</em>
-              <a href="#contact" onClick={() => choosePlan(p[0])}>START →</a>
+              <a href="#contact" onClick={() => choosePlan(p[0], `Hi Vitalii! I'm interested in the ${p[0]} package (${p[2]}, from ${p[1]}, ${p[4]}). My project idea: `)}>START →</a>
             </div>
           ))}
         </div>
@@ -260,7 +278,7 @@ export default function Home() {
             <div className="sectionTag">08 / CONTACT</div>
             <h2>Let&apos;s build something <em>real.</em></h2>
             <p>I&apos;m open to freelance projects, collaborations and long-term development work. Tell me what you want to launch and I&apos;ll reply with a clear plan and quote.</p>
-            <ContactForm plan={plan} />
+            <ContactForm plan={plan} message={message} setMessage={setMessage} />
           </div>
           <div className="contactLinks">
             <a href={`mailto:${contact.email}`}>EMAIL <span>↗</span></a>
