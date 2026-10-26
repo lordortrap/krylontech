@@ -1,20 +1,19 @@
-# KRYLONTECH Portfolio v2
+# Vitalii Pietukhov — AI No-Code Developer portfolio
 
-Updated single-page Next.js portfolio inspired by the interaction/storytelling pattern of modern AI portfolios while preserving the KRYLONTECH dark neon-blue HUD identity.
-
-## Included
-- Interactive hero system panel
-- About / Capabilities / Tech Stack / Workflow / Projects / Certificates / Price / Contact
-- Capability hover modules
-- Scroll-reactive workflow pipeline
-- Project detail modal with live Bubble links
-- Certificate section and PDF link
-- Responsive navigation and mobile layout
-- Framer Motion interactions
+Single-page Next.js 14 site (dark neon HUD style). Content lives in `app/data.ts`.
 
 ## Run
-npm install
-npm run dev
+    npm install
+    npm run dev
 
 ## Build
-npm run build
+    npm run build
+
+## Contact form
+Without configuration the form opens the visitor's mail app (mailto fallback).
+To send directly, create a Formspree form and set in `.env.local` / Vercel:
+
+    NEXT_PUBLIC_FORM_ENDPOINT=https://formspree.io/f/your_id
+
+## Adding project screenshots
+Put an image in `public/images/projects/` and set `image` for the project in `app/data.ts`.
