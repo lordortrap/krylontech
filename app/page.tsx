@@ -7,6 +7,7 @@ import ContactForm from './ContactForm'
 import ShaderBackground from './ShaderBackground'
 import CursorGlow from './CursorGlow'
 import RevealController from './RevealController'
+import SkillsSwipe from './SkillsSwipe'
 import { projects, capabilities, stack, workflow, pricing, contact, testimonials, certificate, faq, type Project } from './data'
 
 const navItems = ['about', 'capabilities', 'tech-stack', 'projects', 'certificates', 'reviews', 'price', 'faq', 'contact']
@@ -177,6 +178,7 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
+        <SkillsSwipe />
       </section>
 
       <section className="section workflowSection">

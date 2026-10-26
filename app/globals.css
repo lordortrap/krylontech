@@ -195,3 +195,32 @@ main>section,main>footer{position:relative;z-index:1}
 @media(max-width:1250px){.nav{gap:15px;font-size:10px}.navCta{display:none}}
 @media(max-width:1000px){.nav{gap:11px;letter-spacing:.1em}.brand{font-size:17px}}
 @media(max-width:900px){.nav{white-space:normal}}
+
+/* swipe panel: languages / expertise */
+.swipePanel{margin-top:14px;border:1px solid var(--line);background:rgba(5,13,23,.9);padding:22px 26px 18px;outline-offset:3px;touch-action:pan-y;user-select:none}
+.swipeHead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.swipeTabs{display:flex;gap:8px}
+.swipeTab{background:transparent;border:1px solid rgba(35,146,255,.25);color:#7b9ab3;font-size:10px;letter-spacing:.18em;padding:8px 12px;cursor:pointer;transition:color .25s,border-color .25s,background .25s}
+.swipeTab:hover{color:#d7f3ff;border-color:var(--cyan)}
+.swipeTab.active{color:#00101d;background:var(--cyan);border-color:var(--cyan);font-weight:700}
+.swipeNav{display:flex;align-items:center;gap:8px}
+.swipeNav button{width:34px;height:34px;border:1px solid var(--line);background:transparent;color:#e6f6ff;font-size:20px;line-height:1;cursor:pointer;transition:border-color .2s,color .2s}
+.swipeNav button:hover{border-color:var(--cyan);color:var(--cyan)}
+.swipeHint{font-size:9px;letter-spacing:.2em;color:#6f889f;margin-right:6px}
+.swipeViewport{overflow:hidden;margin-top:18px}
+.swipeSlide{cursor:grab;min-height:150px}
+.swipeSlide:active{cursor:grabbing}
+.swipeSlide h3{margin:0 0 18px;font-size:20px}
+.langList{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 26px}
+.langList li div{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+.langList strong{font-size:16px}
+.langList span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.langList i{display:block;height:4px;background:rgba(35,146,255,.18);position:relative;overflow:hidden}
+.langList i:after{content:'';position:absolute;inset:0 auto 0 0;width:var(--lvl);background:linear-gradient(90deg,#0d8cf0,var(--cyan));box-shadow:0 0 12px var(--cyan);animation:lvlIn .9s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes lvlIn{from{width:0}}
+.expertList{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.expertList li{border:1px solid rgba(40,170,255,.35);background:rgba(21,156,255,.1);padding:11px 15px;font-size:13px;color:#d7f3ff}
+.swipeDots{display:flex;gap:7px;justify-content:center;margin-top:14px}
+.swipeDots i{width:22px;height:3px;background:rgba(35,146,255,.25);transition:background .3s,width .3s}
+.swipeDots i.on{background:var(--cyan);width:34px;box-shadow:0 0 10px var(--cyan)}
+@media(max-width:600px){.swipePanel{padding:18px 16px 14px}.swipeHint{display:none}}

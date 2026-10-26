@@ -184,3 +184,22 @@ export const faq = [
   ['What do I need to get started?', 'A short description of your idea: who the users are and the three to five things the product must do. Send it through the form and I will reply with a clear plan and quote.'],
   ['Are the projects on this page real clients?', 'They are portfolio demos built on Bubble in a test environment with Stripe in test mode. They show the full development lifecycle, from analysis and planning to logic, integrations, security and optimization.'],
 ] as const
+
+export const languages = [
+  { name: 'Ukrainian', level: 'Native', percent: 100 },
+  { name: 'Russian', level: 'Fluent', percent: 88 },
+  { name: 'Polish', level: 'Advanced', percent: 72 },
+  { name: 'English', level: 'Intermediate', percent: 52 },
+]
+
+export const expertise = [
+  'Bubble.io Development',
+  'Product Architecture',
+  'Security & Roles',
+  'API & Backend Logic',
+  'Stripe Payments & Webhooks',
+  'Design Systems & Figma-to-Bubble',
+  'Multilingual Apps (EN/UA)',
+  'AI Integrations',
+  'Audits & Optimization',
+]
