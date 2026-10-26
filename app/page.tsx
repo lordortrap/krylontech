@@ -7,9 +7,9 @@ import ContactForm from './ContactForm'
 import ShaderBackground from './ShaderBackground'
 import CursorGlow from './CursorGlow'
 import RevealController from './RevealController'
-import { projects, capabilities, stack, workflow, pricing, contact, type Project } from './data'
+import { projects, capabilities, stack, workflow, pricing, contact, testimonials, certificate, type Project } from './data'
 
-const navItems = ['about', 'capabilities', 'tech-stack', 'projects', 'certificates', 'price', 'contact']
+const navItems = ['about', 'capabilities', 'tech-stack', 'projects', 'certificates', 'reviews', 'price', 'contact']
 
 const quickCards = [
   { n: '01', id: 'about', title: 'ABOUT', desc: 'Who I am, what I build and how I work.', img: '/images/cards/about.png' },
@@ -21,24 +21,15 @@ function HudIcon({ kind }: { kind: 'about' | 'projects' | 'certificate' | 'mail'
   return <span className={`hudIcon hud-${kind}`} aria-hidden="true"><span /></span>
 }
 
-function ProjectVisual({ p, priority }: { p: Project; priority?: boolean }) {
-  if (p.image) {
-    return <Image className="projectImage" src={p.image} alt={`${p.title} project screenshot`} width={1200} height={750} sizes="(max-width:900px) 90vw, 480px" priority={priority} />
-  }
-  return (
-    <div className="projectWindow" role="img" aria-label={`${p.title} interface preview`}>
-      <div className="dots">● ● ●</div>
-      <div className="mockTitle">{p.title.toUpperCase()}</div>
-      <div className="chartLine" />
-      <div className="miniBlocks"><i /><i /><i /><i /></div>
-    </div>
-  )
+function ProjectCover({ p, priority }: { p: Project; priority?: boolean }) {
+  return <Image className="projectImage" src={p.gallery[0].src} alt={`${p.title} project screenshot`} width={800} height={570} sizes="(max-width:900px) 90vw, 480px" priority={priority} />
 }
 
 export default function Home() {
   const [activeStep, setActiveStep] = useState('01')
   const [activeCapability, setActiveCapability] = useState(0)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [shot, setShot] = useState(0)
   const [menu, setMenu] = useState(false)
   const [plan, setPlan] = useState('')
   const [message, setMessage] = useState('')
@@ -48,10 +39,16 @@ export default function Home() {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { setSelectedProject(null); setMenu(false) }
+      if (!selectedProject) return
+      const n = selectedProject.gallery.length
+      if (e.key === 'ArrowRight') setShot(s => (s + 1) % n)
+      if (e.key === 'ArrowLeft') setShot(s => (s - 1 + n) % n)
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [])
+  }, [selectedProject])
+
+  const openProject = (p: Project) => { setShot(0); setSelectedProject(p) }
 
   useEffect(() => {
     if (!selectedProject) return
@@ -215,14 +212,16 @@ export default function Home() {
         <div className="sectionHead"><div><div className="sectionTag">05 / PROJECTS</div><h2>Selected <em>builds.</em></h2></div><a className="textLink" href="#contact">DISCUSS A PROJECT →</a></div>
         <div className="projectGrid">
           {projects.map((p, i) => (
-            <button className="projectCard" key={p.id} onClick={() => setSelectedProject(p)} aria-haspopup="dialog" aria-label={`Open ${p.title} details`}>
+            <button className="projectCard" key={p.id} onClick={() => openProject(p)} aria-haspopup="dialog" aria-label={`Open ${p.title} case study`}>
               <div className="projectVisual">
                 <div className="projectHud"><span>{p.id}</span><span>{p.status}</span></div>
-                <ProjectVisual p={p} priority={i < 2} />
+                <ProjectCover p={p} priority={i < 2} />
+                {p.gallery.length > 1 && <span className="shotCount">{p.gallery.length} SCREENS</span>}
               </div>
               <div className="projectMeta"><div><span>{p.type} / {p.year}</span><h3>{p.title}</h3></div><b>↗</b></div>
               <p>{p.description}</p>
-              <div className="tags">{p.stack.map(s => <span key={s}>{s}</span>)}</div>
+              <div className="facts">{p.facts.map(f => <span key={f}>{f}</span>)}</div>
+              <div className="tags">{p.stack.slice(0, 4).map(s => <span key={s}>{s}</span>)}</div>
             </button>
           ))}
         </div>
@@ -235,26 +234,44 @@ export default function Home() {
             <div className="sectionTag">06 / CERTIFICATES</div>
             <h2>Learning that <em>ships.</em></h2>
             <p className="lead">AI No-Code training covering Bubble fundamentals, databases, APIs, security, AI integrations, deployment and n8n automation.</p>
-            <div className="certMeta"><span>GOIT</span><span>AI NO-CODE</span><span>08 / 09 / 2026</span></div>
-            <a className="primaryBtn" href="/certificates/Vitalii-Pietukhov.pdf" target="_blank" rel="noreferrer">VIEW CERTIFICATE ↗</a>
-          </div>
-          <div className="certificateVisual" aria-hidden="true">
-            <div className="certPaper">
-              <span className="certOrg">GOIT</span>
-              <b>CERTIFICATE</b>
-              <small>OF COMPLETION</small>
-              <strong>Vitalii Pietukhov</strong>
-              <em>AI No-Code</em>
-              <i /><i /><i />
-              <div className="seal">AI<br />NO-CODE</div>
+            <div className="certMeta"><span>{certificate.issuer.toUpperCase()}</span><span>{certificate.course.toUpperCase()}</span><span>{certificate.date}</span><span>ID {certificate.id}</span></div>
+            <div className="certActions">
+              <a className="primaryBtn" href={certificate.pdf} target="_blank" rel="noreferrer">OPEN FULL CERTIFICATE ↗</a>
+              <a className="ghostBtn" href={certificate.site} target="_blank" rel="noreferrer">ISSUER: GOIT.GLOBAL ↗</a>
             </div>
-            <span className="certCode">CERT / 47952</span>
+            <p className="certNote">Issued by GoIT, signed by its CEO. To verify, quote Unique ID {certificate.id} to the issuer.</p>
           </div>
+          <a className="certificateVisual" href={certificate.pdf} target="_blank" rel="noreferrer" aria-label="Open the GoIT AI No-Code certificate (PDF)">
+            <Image className="certImage" src={certificate.image} alt="GoIT AI No-Code certificate issued to Vitalii Pietukhov" width={1287} height={910} sizes="(max-width:900px) 90vw, 520px" />
+            <span className="certZoom">VIEW PDF ↗</span>
+          </a>
         </div>
       </section>
 
+      <section id="reviews" className="section container">
+        <div className="sectionHead"><div><div className="sectionTag">07 / REVIEWS</div><h2>What clients <em>say.</em></h2></div><p>Feedback from people I have worked with.</p></div>
+        {testimonials.length > 0 ? (
+          <div className="reviewGrid">
+            {testimonials.map(t => (
+              <figure className="reviewCard" key={t.name}>
+                <blockquote>“{t.quote}”</blockquote>
+                <figcaption><b>{t.name}</b><span>{t.role}</span></figcaption>
+              </figure>
+            ))}
+          </div>
+        ) : (
+          <div className="reviewEmpty">
+            <div>
+              <h3>Client reviews will appear here</h3>
+              <p>The four projects above are full demos you can click through yourself, with live links and screenshots. Have a project in mind? Tell me about it and I will reply with a clear plan and quote.</p>
+            </div>
+            <a className="primaryBtn" href="#contact">TELL ME ABOUT YOUR PROJECT ↗</a>
+          </div>
+        )}
+      </section>
+
       <section id="price" className="section container">
-        <div className="sectionHead"><div><div className="sectionTag">07 / PRICE</div><h2>Clear starting <em>points.</em></h2></div><p>Timelines depend on scope. Final estimate is confirmed after a short discovery.</p></div>
+        <div className="sectionHead"><div><div className="sectionTag">08 / PRICE</div><h2>Clear starting <em>points.</em></h2></div><p>Timelines depend on scope. Final estimate is confirmed after a short discovery.</p></div>
         <div className="priceGrid">
           {pricing.map((p, i) => (
             <div className={i === 1 ? 'priceCard featured' : 'priceCard'} key={p[0]}>
@@ -270,7 +287,7 @@ export default function Home() {
         <div className="container contactBox">
           <div className="contactIcon"><HudIcon kind="mail" /></div>
           <div>
-            <div className="sectionTag">08 / CONTACT</div>
+            <div className="sectionTag">09 / CONTACT</div>
             <h2>Let&apos;s build something <em>real.</em></h2>
             <p>I&apos;m open to freelance projects, collaborations and long-term development work. Tell me what you want to launch and I&apos;ll reply with a clear plan and quote.</p>
             <ContactForm plan={plan} message={message} setMessage={setMessage} />
@@ -293,13 +310,44 @@ export default function Home() {
             <motion.div className="projectModal" role="dialog" aria-modal="true" aria-label={selectedProject.title} onKeyDown={trapFocus}
               initial={{ y: 25, scale: 0.98 }} animate={{ y: 0, scale: 1 }} exit={{ y: 25, scale: 0.98 }} onClick={e => e.stopPropagation()}>
               <button ref={closeRef} className="close" onClick={() => setSelectedProject(null)} aria-label="Close project details">×</button>
-              <div className="sectionTag">PROJECT / {selectedProject.id} / {selectedProject.status}</div>
-              <div className="modalVisual"><ProjectVisual p={selectedProject} /></div>
+              <div className="sectionTag">CASE STUDY / {selectedProject.id} / {selectedProject.status}</div>
               <h2>{selectedProject.title}</h2>
               <p>{selectedProject.description}</p>
-              <ul className="featureList">{selectedProject.features.map(f => <li key={f}>{f}</li>)}</ul>
+              {selectedProject.video && (
+                <video className="modalVideo" src={selectedProject.video} controls preload="metadata" poster={selectedProject.gallery[0].src} />
+              )}
+              <figure className="gallery">
+                <div className="galleryStage">
+                  <Image key={selectedProject.gallery[shot].src} className="galleryImage" src={selectedProject.gallery[shot].src} alt={`${selectedProject.title}: ${selectedProject.gallery[shot].caption}`} width={800} height={570} sizes="(max-width:900px) 92vw, 760px" />
+                  {selectedProject.gallery.length > 1 && (
+                    <>
+                      <button type="button" className="galleryNav prev" aria-label="Previous screenshot" onClick={() => setShot(s => (s - 1 + selectedProject.gallery.length) % selectedProject.gallery.length)}>‹</button>
+                      <button type="button" className="galleryNav next" aria-label="Next screenshot" onClick={() => setShot(s => (s + 1) % selectedProject.gallery.length)}>›</button>
+                    </>
+                  )}
+                </div>
+                <figcaption><b>{shot + 1} / {selectedProject.gallery.length}</b> {selectedProject.gallery[shot].caption}</figcaption>
+                {selectedProject.gallery.length > 1 && (
+                  <div className="thumbs">
+                    {selectedProject.gallery.map((g, i) => (
+                      <button type="button" key={g.src} className={i === shot ? 'thumb active' : 'thumb'} onClick={() => setShot(i)} aria-label={`Show screenshot ${i + 1}`} aria-current={i === shot}>
+                        <Image src={g.src} alt="" width={160} height={114} sizes="120px" loading="eager" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </figure>
+              <div className="facts">{selectedProject.facts.map(f => <span key={f}>{f}</span>)}</div>
+              <div className="caseGrid">
+                <section><h3>CHALLENGE</h3><p>{selectedProject.challenge}</p></section>
+                <section><h3>SOLUTION</h3><ul>{selectedProject.solution.map(x => <li key={x}>{x}</li>)}</ul></section>
+                <section><h3>RESULT</h3><ul>{selectedProject.result.map(x => <li key={x}>{x}</li>)}</ul></section>
+              </div>
               <div className="modalTags">{selectedProject.stack.map(s => <span key={s}>{s}</span>)}</div>
-              <a className="primaryBtn" href={selectedProject.link} target="_blank" rel="noreferrer">OPEN LIVE PROJECT ↗</a>
+              <div className="modalActions">
+                <a className="primaryBtn" href={selectedProject.link} target="_blank" rel="noreferrer">OPEN LIVE PROJECT ↗</a>
+                <a className="ghostBtn" href="#contact" onClick={() => { setSelectedProject(null); choosePlan(`Like ${selectedProject.title}`, `Hi Vitalii! I liked ${selectedProject.title} and want something similar. My project idea: `) }}>BUILD SOMETHING SIMILAR</a>
+              </div>
             </motion.div>
           </motion.div>
         )}

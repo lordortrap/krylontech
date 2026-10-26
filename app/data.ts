@@ -1,13 +1,19 @@
+export type Shot = { src: string; caption: string }
+
 export type Project = {
   id: string
   title: string
   type: string
   year: string
   status: string
-  image?: string
   stack: string[]
   description: string
-  features: string[]
+  challenge: string
+  solution: string[]
+  result: string[]
+  facts: string[]
+  gallery: Shot[]
+  video?: string
   link: string
 }
 
@@ -16,11 +22,24 @@ export const projects: Project[] = [
     id: '01', title: 'ClientPortal', type: 'AGENCY PORTAL', year: '2026', status: 'IN PROGRESS',
     stack: ['Bubble.io', 'Privacy Rules', 'Backend workflows', 'API Connector'],
     description: 'Demo portal for creative agencies: share deliverables with clients, collect approvals and track milestones in one place. Every client sees only their own projects.',
-    features: [
-      'Role-based access with grants maintained by backend workflows',
-      'Approval center with versions, feedback history and Approve / Request changes',
-      'Invitations, join-by-code and switching between agency workspaces',
-      'Comments with visibility levels, notifications and milestone reminder emails',
+    challenge: 'Versions, comments and approvals get lost in email threads. Agency staff and client members must each see only what they are granted, and clients should always know what is waiting for their decision.',
+    solution: [
+      'Data model of 12 types: Agency, ClientCompany, Project, Deliverable, DeliverableVersion, Approval, Milestone, Comment, Invitation, Notification and memberships',
+      'Role-based access with grants maintained by backend workflows (apply agency access, revoke project access, refresh access)',
+      'Approval center with versions, feedback history and Approve / Request changes decisions',
+      'Invitations, join-by-code, switching between agency workspaces, comments with visibility levels and in-app notifications',
+      'Milestone reminder emails, sample-data seeding for demos and a QA page that checks who can see what',
+    ],
+    result: [
+      'Multi-role collaboration app running in a Bubble test environment with sample data',
+      'New agencies, clients and projects can be added without changing the architecture',
+    ],
+    facts: ['12 data types', 'Role-based access', 'Approvals + milestones'],
+    gallery: [
+      { src: '/images/projects/clientportal-01-dashboard-desktop.jpg', caption: 'Agency dashboard: active projects, pending approvals, change requests, activity feed and upcoming deadlines.' },
+      { src: '/images/projects/clientportal-02-projects-desktop.jpg', caption: 'Projects: cards with status chips, milestone progress, deadlines and filters by status and client.' },
+      { src: '/images/projects/clientportal-03-approval-center-desktop.jpg', caption: 'Approval center: client-facing review queue with version tags, feedback history and Approve / Request changes.' },
+      { src: '/images/projects/clientportal-04-clients-desktop.jpg', caption: 'Clients: directory with portal invite codes and one-click portal invitations.' },
     ],
     link: 'https://clientportal-54921.bubbleapps.io/version-test',
   },
@@ -28,40 +47,87 @@ export const projects: Project[] = [
     id: '02', title: 'SoloFlow', type: 'OPERATIONS PLATFORM', year: '2026', status: 'IN PROGRESS',
     stack: ['Bubble.io', 'Privacy Rules', 'Backend workflows', 'Drag & drop'],
     description: 'Demo operations platform for small service businesses: pipeline, jobs, clients, bookings, finances and team, plus a secure portal where the client follows their own work.',
-    features: [
-      '14 app pages with Kanban / Table / Calendar views and drag-and-drop stages',
-      '20+ data types and about 50 backend workflows',
-      'Booking conflict checks, scheduled reminders, audit trail',
-      'Multi-currency support, expiring team invitations and client-portal links',
+    challenge: 'A small service company runs on spreadsheets and chats. The owner needs the whole business in one place, and clients want to follow status and files themselves instead of asking by phone or email.',
+    solution: [
+      '14 app pages: dashboard, drag-and-drop pipeline, jobs, clients, calendar and bookings, services, finances, team, time tracker, settings, onboarding and client portal',
+      'Data model with 20+ types: Company, Customer, Job, Order, Booking, Service, Invoice, Time Entry, Membership, Invitation, Attachment, Audit and more',
+      'About 50 backend workflows: audit trail for key records, booking conflict checks, scheduled appointment reminders, automatic job totals',
+      'Email outbox with delivery tracking, team invitations and client-portal links with expiry, private file links and record-level access',
+      'Multi-currency support with exchange rates',
+    ],
+    result: [
+      'Multi-role operations app (roles, scheduling, finance, client portal, automation) running in a Bubble test environment',
+      'New services, customers and team members can be added without changing the architecture',
+    ],
+    facts: ['14 pages', '20+ data types', '~50 backend workflows'],
+    gallery: [
+      { src: '/images/projects/soloflow-00-landing-desktop.jpg', caption: 'Landing page: product pitch with capabilities, language switcher and sign-in / sign-up entry points.' },
+      { src: '/images/projects/soloflow-01-overview-desktop.jpg', caption: 'Overview: live dashboard of active tasks, orders, overdue and unassigned work, checklist and deadlines.' },
+      { src: '/images/projects/soloflow-02-orders-kanban-desktop.jpg', caption: 'Orders: Kanban, Table and Calendar views with stages, client filter and order totals.' },
+      { src: '/images/projects/soloflow-03-tasks-desktop.jpg', caption: 'Tasks: team board with status counters, quick filters (my tasks, overdue, unassigned), search and priorities.' },
     ],
     link: 'https://lordortrap12.bubbleapps.io/version-test',
   },
   {
-    id: '03', title: 'E-Pharmacy', type: 'MARKETPLACE', year: '2026', status: 'DEMO',
-    image: '/images/projects/e-pharmacy.png',
-    stack: ['Bubble.io', 'Stripe (test mode)', 'API', 'Workflows'],
+    id: '03', title: 'E-Pharmacy', type: 'MARKETPLACE', year: '2026', status: 'DONE',
+    stack: ['Bubble.io', 'Stripe (test mode)', 'Stripe webhook', 'Groq AI', 'Figma', 'EN / UA'],
     description: 'Demo online-pharmacy marketplace: pharmacies have their own pages and product lists; customers search medicines, add them to a cart and pay through Stripe test mode.',
-    features: [
-      'Pharmacy pages and product listings',
-      'Medicine search, cart and Stripe checkout in test mode',
-      'Registration, login and customer reviews',
+    challenge: 'Customers want to find and compare medicines from several pharmacies in one place, and pharmacies need an online storefront without building their own site.',
+    solution: [
+      'Data model: Shop, Product, ShopsProduct (per-pharmacy product and price), Review, Cart and Order, User',
+      'Catalog with search and category filters; pharmacy pages with open/closed status, ratings, reviews and likes',
+      'Role-based access (Privacy Rules): Customer / Pharmacy Owner / Admin',
+      'Cart and Stripe checkout in test mode with a webhook as backup confirmation',
+      'AI assistant through the Groq API (API Connector); pages built from a Figma design; EN/UA language switcher',
+    ],
+    result: [
+      'Multi-role marketplace with catalog, cart, payments, reviews, owner and admin views',
+      'More pharmacies and products can be added without changing the architecture',
+    ],
+    facts: ['3 roles', 'Stripe + webhook', 'AI assistant'],
+    gallery: [
+      { src: '/images/projects/e-pharmacy.png', caption: 'Home page with the pharmacy directory: stores with address, phone, rating and live open/closed status.' },
     ],
     link: 'https://epharmacyvpietukhov-31602.bubbleapps.io/version-test',
   },
   {
-    id: '04', title: 'Growly', type: 'EDTECH', year: '2026', status: 'DEMO',
-    image: '/images/projects/growly.png',
-    stack: ['Bubble.io', 'Stripe (test mode)', 'PDF Conjurer', 'EN / UA'],
+    id: '04', title: 'Growly', type: 'EDTECH', year: '2026', status: 'DONE',
+    stack: ['Bubble.io', 'Stripe (test mode)', 'PDF Conjurer', 'Vimeo player', 'Figma', 'EN / UA'],
     description: 'Demo online-learning platform for soft skills: users buy courses, study modules and video lessons, pass a final test and receive a certificate with a PDF and a public link.',
-    features: [
-      'Course catalog, search, categories and Stripe test payments',
-      'Modules, video lessons, final test and progress tracking',
-      'Certificate generation with PDF and public link',
-      'Admin panel and EN / UA interface',
+    challenge: 'Adults learning soft skills need structured video courses with notes, progress tracking and proof of completion, while administrators need to manage content and users.',
+    solution: [
+      'Course catalog with live search and category filters, cart and Stripe checkout in test mode',
+      'Learning space with modules, video lessons, progress tracking and a server-graded final test',
+      'Certificate PDF generated in the browser (PDF Conjurer) plus a public certificate page the owner can switch off',
+      'Admin panel: courses, users with moderation and notes, analytics',
+      'Privacy Rules for guest / student / admin: notes and videos only for buyers, test answers admin-only',
+    ],
+    result: [
+      'Full learning flow: catalog, purchase, lessons, test, certificate',
+      'New courses can be added without changing the architecture (content kept in EN and UA fields)',
+    ],
+    facts: ['3 roles', 'Server-graded test', 'PDF certificate'],
+    gallery: [
+      { src: '/images/projects/growly.png', caption: 'Landing page: value proposition, hero section and entry points for log in, sign up and the course catalog.' },
     ],
     link: 'https://growly-67500.bubbleapps.io/version-test',
   },
 ]
+
+export type Testimonial = { quote: string; name: string; role: string }
+
+// Add real client or mentor reviews here; the Reviews section shows them automatically.
+export const testimonials: Testimonial[] = []
+
+export const certificate = {
+  issuer: 'GoIT',
+  course: 'AI No-Code',
+  date: '08 / 09 / 2026',
+  id: '47952',
+  site: 'https://goit.global',
+  pdf: '/certificates/Vitalii-Pietukhov.pdf',
+  image: '/images/certificate.jpg',
+}
 
 export const capabilities = [
   ['01', 'Landing Pages', 'Conversion-focused pages with responsive UI, clear hierarchy and strong CTA flows.'],

@@ -128,3 +128,49 @@ main>section,main>footer{position:relative;z-index:1}
 .priceCard:hover,.projectCard:hover{transform:translateY(-4px)}
 .projectCard>*{position:relative;z-index:1}
 .projectCard:after,.quickCard:after{z-index:2}
+
+/* case studies: gallery, challenge / solution / result */
+.shotCount{position:absolute;z-index:3;left:18px;bottom:14px;font-size:9px;letter-spacing:.16em;color:#bfe6ff;background:rgba(3,10,20,.82);border:1px solid var(--line);padding:5px 8px}
+.facts{display:flex;flex-wrap:wrap;gap:7px;padding:4px 25px 0}
+.facts span{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#d7f3ff;background:rgba(21,156,255,.12);border:1px solid rgba(40,170,255,.35);padding:6px 9px}
+.projectModal{width:min(940px,100%);padding:42px 44px 38px}
+.projectModal .facts{padding:0;margin:20px 0 6px}
+.projectModal h2{font-size:clamp(34px,5vw,48px)}
+.gallery{margin:22px 0 0}
+.galleryStage{position:relative;border:1px solid rgba(28,175,255,.45);background:#030811;box-shadow:0 0 30px rgba(0,143,255,.12)}
+.galleryImage{display:block;width:100%;height:auto;animation:shotIn .45s ease}
+@keyframes shotIn{from{opacity:0;transform:scale(1.015)}to{opacity:1;transform:none}}
+.galleryNav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border:1px solid var(--line);background:rgba(3,10,20,.82);color:#e6f6ff;font-size:24px;line-height:1;cursor:pointer;transition:border-color .2s,color .2s}
+.galleryNav:hover{border-color:var(--cyan);color:var(--cyan)}
+.galleryNav.prev{left:10px}.galleryNav.next{right:10px}
+.gallery figcaption{margin-top:12px;font-size:13px;line-height:1.6;color:#9ab0c4}
+.gallery figcaption b{color:var(--cyan);letter-spacing:.12em;margin-right:8px}
+.thumbs{display:flex;gap:8px;margin-top:12px}
+.thumb{flex:1;max-width:140px;padding:0;border:1px solid rgba(35,146,255,.25);background:#030811;opacity:.55;cursor:pointer;transition:opacity .2s,border-color .2s}
+.thumb img{display:block;width:100%;height:auto}
+.thumb:hover,.thumb.active{opacity:1;border-color:var(--cyan)}
+.caseGrid{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:26px;margin-top:26px;padding-top:24px;border-top:1px solid rgba(35,131,185,.2)}
+.caseGrid h3{margin:0 0 10px;font-size:11px;letter-spacing:.2em;color:var(--cyan)}
+.caseGrid p,.caseGrid li{font-size:13px;line-height:1.65;color:#a4b8ca}
+.caseGrid ul{margin:0;padding-left:16px;display:grid;gap:7px}
+.modalActions{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.modalVideo{width:100%;margin-top:18px;border:1px solid rgba(28,175,255,.45);background:#000}
+@media(max-width:900px){.caseGrid{grid-template-columns:1fr}.projectModal{padding:34px 22px 28px}}
+@media(max-width:600px){.thumbs{gap:6px}.galleryNav{width:34px;height:34px}}
+/* certificate preview */
+.certificateVisual{display:block;position:relative;min-height:0;padding:0;align-self:center}
+.certImage{display:block;width:100%;height:auto;border:1px solid rgba(31,183,255,.5);box-shadow:0 0 50px rgba(18,160,255,.2);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.certificateVisual:hover .certImage{transform:translateY(-4px) scale(1.01);box-shadow:0 0 60px rgba(18,200,255,.32)}
+.certZoom{position:absolute;right:12px;bottom:12px;font-size:10px;letter-spacing:.16em;color:#00101d;background:var(--cyan);padding:7px 10px}
+.certActions{display:flex;flex-wrap:wrap;gap:12px}
+.certNote{margin-top:16px;font-size:12px}
+.certMeta{flex-wrap:wrap}
+/* reviews */
+.reviewGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.reviewCard{margin:0;border:1px solid var(--line);background:#050d17;padding:28px}
+.reviewCard blockquote{margin:0 0 18px;font-size:16px;line-height:1.7;color:#cfe3f3}
+.reviewCard figcaption b{display:block;letter-spacing:.1em;font-size:13px}
+.reviewCard figcaption span{font-size:11px;letter-spacing:.14em;color:#7b9ab3}
+.reviewEmpty{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;border:1px dashed rgba(35,146,255,.45);background:rgba(5,13,23,.9);padding:34px 38px}
+.reviewEmpty h3{margin:0 0 8px;font-size:22px}
+.reviewEmpty p{margin:0;max-width:640px}
